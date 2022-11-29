@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Locale;
+import javax.validation.Valid;
 
 // 12.0 tworzę nową klasę:
 @RestController
@@ -32,7 +32,7 @@ public class AdminProductController {
 
     // 16.3 dodawanie nowych produktów. Tworzenie nowych zasobów:
     @PostMapping("/admin/products")
-    public AdminProduct createProduct(@RequestBody AdminProductDto adminProductDto) { // 16.5 muszę tu stworzyć jakiś obiekt. Tworzę DTO
+    public AdminProduct createProduct(@RequestBody @Valid AdminProductDto adminProductDto) { // 16.5 muszę tu stworzyć jakiś obiekt. Tworzę DTO
         return productService.createProduct(mapAdminProduct(adminProductDto, EMPTY_ID) // 16.4 w serwisie będzie nowa metoda createProduct. Będę potrzebował
                 // 17.2 tworzenie stałej EMPTY_ID nie jest konieczne, jest dla lepszej czytelości, żeby było widać, że to jest puste id, a nie null
                 // @RequestBody wyżej i obiektu, który przyjmie to co będzie wysyłać usługa.
@@ -48,8 +48,9 @@ public class AdminProductController {
     }
     // 17.0 usługa do zapisywania edytowanych produktów. Edycja zasobów:
     @PutMapping("/admin/products/{id}")
-    public AdminProduct updateProduct(@RequestBody AdminProductDto adminProductDto, @PathVariable Long id) { // 17.1 będzie potrzebne jeszcze id
-        return productService.updateProduct(mapAdminProduct(adminProductDto, id)
+    public AdminProduct updateProduct(@RequestBody @Valid AdminProductDto adminProductDto, @PathVariable Long id) { // 17.1 będzie potrzebne jeszcze id
+        return productService.updateProduct(mapAdminProduct(adminProductDto, id) // 31.0 bez @Valid Hibernate Validator nie sprawdzi
+                // klasy. Po to żeby wyzwolić uruchomienia Hibernate Validator
         );
     }
 
@@ -60,7 +61,7 @@ public class AdminProductController {
                 .description(adminProductDto.getDescription())
                 .category(adminProductDto.getCategory())
                 .price(adminProductDto.getPrice())
-                .currency(adminProductDto.getCurrency().toUpperCase(Locale.ROOT))
+                .currency(adminProductDto.getCurrency()/*.toUpperCase(Locale.ROOT)  32. usuwam po walidacji*/)
                 .build(); // wyekstrachowana metoda, bo powtarza sie to samo w reszcie metod, więc zeby ciągle nie pisać tego samego
     }
 }
