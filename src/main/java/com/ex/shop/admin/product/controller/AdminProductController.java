@@ -54,6 +54,12 @@ public class AdminProductController {
         );
     }
 
+    // 44.0 dodaję metodę:
+    @DeleteMapping("/admin/products/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id); // 44.1 tworzę tę metodę w serwisie (tu jeszcze błąd robi ona póki co)
+    }
+
     private static AdminProduct mapAdminProduct(AdminProductDto adminProductDto, Long id) {
         return AdminProduct.builder() // to akurat w takiej formie (bo w DTO nie ma id?)
                 .id(id)
