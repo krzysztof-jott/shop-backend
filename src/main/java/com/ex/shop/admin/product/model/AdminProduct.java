@@ -27,5 +27,6 @@ public class AdminProduct {
     private BigDecimal price;
     @Enumerated(EnumType.STRING)
     private AdminProductCurrency currency;
-
+    // 3.0UP dodaję nowe pole encji i przechodzę do mapowania w kontrolerze:
+    private String image;
 }
