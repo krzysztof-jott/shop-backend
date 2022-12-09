@@ -29,4 +29,6 @@ public class AdminProduct {
     private AdminProductCurrency currency;
     // 3.0UP dodaję nowe pole encji i przechodzę do mapowania w kontrolerze:
     private String image;
+    // 20.1UP dodaję pole i potem jeszcze w DTO:
+    private String slug;
 }

@@ -23,4 +23,7 @@ public class Product { // 38.0 encja musi mieć domyślny bezargumentowy konstru
     private String description;
     private BigDecimal price;
     private String currency;
+    //    20.0UP dodaję pola. W części administracyjnej też muszę je dodać:
+    private String image;
+    private String slug;
 }

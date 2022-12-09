@@ -17,4 +17,10 @@ public class ProductService {
         return productRepository.findAll(pageable); // 4.0 dodaję PageRequest z metodą of, strona nr 1 będzie mieć 25 rekordów.
         // metoda zwraca Page, a nie listę, dlatego jest błąd.
     }
+
+    // 25.2UP tworzę metodę:
+    public Product getProduct(String slug) {
+        // 25.4UP implementuję metodę, ale najpierw tworzę w repozytorium metodę, która pozwoli wyszukiwać po slugu:
+        return productRepository.findBySlug(slug).orElseThrow();
+    }
 }

@@ -5,6 +5,7 @@ import com.ex.shop.admin.product.controller.dto.UploadResponse;
 import com.ex.shop.admin.product.model.AdminProduct;
 import com.ex.shop.admin.product.service.AdminProductImageService;
 import com.ex.shop.admin.product.service.AdminProductService;
+import com.github.slugify.Slugify;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -139,6 +140,15 @@ public class AdminProductController {
                 .currency(adminProductDto.getCurrency()/*.toUpperCase(Locale.ROOT)  32. usuwam po walidacji*/)
                 // 3.1UP przemapowuję pole image i dodaję pole w DTO:
                 .image(adminProductDto.getImage())
+                // 20.3UP dodaję mapowanie. Muszę zadecydować, w którym miejscu przerabiam ten slug, który otrzymuję z frontu, na przyjazną
+                // nazwę. Dodaję więc prywatną metodę i korzystam w niej z biblioteki, z której korzystałem już wcześniej:
+                .slug(slugifySlug(adminProductDto.getSlug()))
                 .build(); // wyekstrachowana metoda, bo powtarza sie to samo w reszcie metod, więc żeby ciągle nie pisać tego samego
+    }
+    //20.4UP metoda:
+    private static String slugifySlug(String slug) {
+        Slugify slugify = new Slugify();// korzystam z tej biblioteki Slugify
+        return slugify.withCustomReplacement("_", "-")
+                .slugify(slug); // teraz wszystko powinno się już zapisywać na backendzie
     }
 }

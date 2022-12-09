@@ -29,4 +29,8 @@ public class AdminProductDto {
     private AdminProductCurrency currency; // pole będzie musiało mieć wartość z tego enuma
     //3.2UP dodaję pole image:
     private String image;
+    // 20.2UP dodaję polę i robię walidacje. Przechodzę do kontrolera (admin):
+    @NotBlank
+    @Length(min = 4)
+    private String slug;
 }
