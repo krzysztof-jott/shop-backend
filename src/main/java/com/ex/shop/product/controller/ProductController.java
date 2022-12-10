@@ -16,7 +16,6 @@ import javax.validation.constraints.Pattern;
 
 @RestController // jak dodamy endpointy, to stworzy dla nich mapowanie
 @RequiredArgsConstructor // dodaję adnotację i mogę usunąć konstruktor poniżej
-// 25.4UP dodaję adnotację:
 @Validated
 public class ProductController {
 
@@ -27,15 +26,12 @@ public class ProductController {
         return productService.getProducts(pageable); // 3.1 zamieniam Listę na Page
     }
 
-    // 25.0UP tworzę usługę, która pobierze jeden produkt po jego slugu:
     @GetMapping("/products/{slug}")
-    public Product getProduct(    // 25.3UP robię walidację tego sluga, który przychodzi z zewnątrz:
+    public Product getProduct(
                                   @PathVariable
-                                  @Pattern(regexp = "[a-z0-9\\-]+") // wzorzec, który będzie pasował do sluga. Litery od a do z, cyfry
-                                  // od 0 do 9 i myślnik, + czyli może być taki znak 1 lub wiele
+                                  @Pattern(regexp = "[a-z0-9\\-]+")
                                   @Length(max = 255)
                                   String slug) {
-
-        return productService.getProduct(slug); // 25.1UP tworzę metodę w serwisie
+        return productService.getProduct(slug);
     }
 }

@@ -9,11 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-// 16.6 bez pola id!
 @Getter
 public class AdminProductDto {
-    // 31.0 ustawiam adnotacje walidacyjne:
-    //    @NotEmpty // nie będzie można przesłać pustego stringa   NIE POTRZEBNY JUŻ, BO JEST LENGTH
     @NotBlank // żeby stringiem nie był tylko biały znak, np spacja
     @Length(min = 4)
     private String name;
@@ -23,13 +20,12 @@ public class AdminProductDto {
     @NotBlank
     @Length(min = 4)
     private String description;
+    private String fullDescription;
     @NotNull
     @Min(0) // bo BigDecimal, więc nie Length, a Min
     private BigDecimal price;
     private AdminProductCurrency currency; // pole będzie musiało mieć wartość z tego enuma
-    //3.2UP dodaję pole image:
     private String image;
-    // 20.2UP dodaję polę i robię walidacje. Przechodzę do kontrolera (admin):
     @NotBlank
     @Length(min = 4)
     private String slug;
