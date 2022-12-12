@@ -19,7 +19,8 @@ public class AdminProduct {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String category;
+// 16.0 zmieniam pole na Long i dodaję Id
+    private Long categoryId;
     private String description;
     private String fullDescription;
     private BigDecimal price;

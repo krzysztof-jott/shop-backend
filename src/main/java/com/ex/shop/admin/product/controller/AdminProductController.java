@@ -82,7 +82,8 @@ public class AdminProductController {
                 .name(adminProductDto.getName())
                 .description(adminProductDto.getDescription())
                 .fullDescription(adminProductDto.getFullDescription())
-                .category(adminProductDto.getCategory())
+//                16.2 tu też dodałem Id w mapowaniu:
+                .categoryId(adminProductDto.getCategoryId())
                 .price(adminProductDto.getPrice())
                 .currency(adminProductDto.getCurrency())
                 .image(adminProductDto.getImage())

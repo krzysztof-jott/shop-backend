@@ -19,7 +19,7 @@ public class Product { // 38.0 encja musi mieć domyślny bezargumentowy konstru
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 38.2 baza danych generuje wartości tej kolumny
     private Long id; // 38.3 w kontrolerze pojawi się błąd, do dałem pole id, a tam go nie ma
     private String name;
-    private String category;
+    private Long categoryId;
     private String description;
     private String fullDescription;
     private BigDecimal price;
