@@ -14,12 +14,12 @@ import java.math.BigDecimal;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product { // 38.0 encja musi mieć domyślny bezargumentowy konstruktor
+public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 38.2 baza danych generuje wartości tej kolumny
-    private Long id; // 38.3 w kontrolerze pojawi się błąd, do dałem pole id, a tam go nie ma
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // baza danych generuje wartości tej kolumny
+    private Long id;
     private String name;
-    private Long categoryId;
+    private Long categoryId; // 38.3 dodaję pole
     private String description;
     private String fullDescription;
     private BigDecimal price;
