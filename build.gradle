@@ -31,6 +31,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 	implementation group: 'com.github.slugify', name: 'slugify', version: '2.5'
+	implementation group: 'org.jsoup', name: 'jsoup', version: '1.15.3'
 }
 
 tasks.named('test') {
