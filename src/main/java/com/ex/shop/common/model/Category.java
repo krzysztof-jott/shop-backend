@@ -1,4 +1,4 @@
-package com.ex.shop.category.model;
+package com.ex.shop.common.model;
 
 import lombok.Getter;
 

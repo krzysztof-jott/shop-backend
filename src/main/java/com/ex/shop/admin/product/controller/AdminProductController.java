@@ -5,7 +5,6 @@ import com.ex.shop.admin.product.controller.dto.UploadResponse;
 import com.ex.shop.admin.product.model.AdminProduct;
 import com.ex.shop.admin.product.service.AdminProductImageService;
 import com.ex.shop.admin.product.service.AdminProductService;
-import com.github.slugify.Slugify;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -20,6 +19,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static com.ex.shop.admin.common.utils.SlugifyUtils.slugifySlug;
 
 @RestController
 @RequiredArgsConstructor
@@ -89,11 +90,5 @@ public class AdminProductController {
                 .image(adminProductDto.getImage())
                 .slug(slugifySlug(adminProductDto.getSlug()))
                 .build();
-    }
-
-    private static String slugifySlug(String slug) {
-        Slugify slugify = new Slugify();// korzystam z tej biblioteki Slugify
-        return slugify.withCustomReplacement("_", "-")
-                .slugify(slug); // teraz wszystko powinno się już zapisywać na backendzie
     }
 }

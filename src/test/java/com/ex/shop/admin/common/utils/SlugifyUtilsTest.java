@@ -1,11 +1,11 @@
-package com.ex.shop.admin.product.service;
+package com.ex.shop.admin.common.utils;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class UploadedFilesNamesUtilsTest {
+class SlugifyUtilsTest {
     // 14.5UP dodaję adnotację (test sparametryzowany) i tworzę metodę:
     @ParameterizedTest
     // 14.6UP pozwala w odpowiedni sposób dodać parametry do testów
@@ -18,7 +18,7 @@ class UploadedFilesNamesUtilsTest {
             "Produkt__1.png, produkt-1.png"
     })
     void shouldSlugifyFileName(String in, String out) { // parametr wejściowy i wyjściowy
-        String fileName = UploadedFilesNamesUtils.slugifyFileName(in);
+        String fileName = SlugifyUtils.slugifyFileName(in);
         assertEquals(fileName, out);
     }
 }

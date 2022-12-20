@@ -1,7 +1,7 @@
 package com.ex.shop.review.controller;
 
+import com.ex.shop.common.model.Review;
 import com.ex.shop.review.controller.dto.ReviewDto;
-import com.ex.shop.review.model.Review;
 import com.ex.shop.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;

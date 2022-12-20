@@ -3,11 +3,12 @@ package com.ex.shop.admin.category.controller;
 import com.ex.shop.admin.category.controller.dto.AdminCategoryDto;
 import com.ex.shop.admin.category.model.AdminCategory;
 import com.ex.shop.admin.category.service.AdminCategoryService;
-import com.github.slugify.Slugify;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.ex.shop.admin.common.utils.SlugifyUtils.slugifySlug;
 
 @RestController
 // 6.1 żeby nie wpisywać ciągle tego samego w mappingach, tutaj dodaję część wspólną dla wszystkich metod:
@@ -41,16 +42,17 @@ public class AdminCategoryController {
                 .id(id)
                 .name(adminCategoryDto.getName())
                 .description(adminCategoryDto.getDescription())
-                .slug(slugifyCategoryName(adminCategoryDto.getSlug())) // 10.3 trzeba przerobić sluga, żeby faktycznie był slugiem,
+                // zmieniam na slugifySlug:
+                .slug(slugifySlug(adminCategoryDto.getSlug())) // 10.3 trzeba przerobić sluga, żeby faktycznie był slugiem,
                 // a nie tym co wpisze użytkownik. Tworzę prywatną metodę slugifyCategoryName
                 .build();
     }
 
-    // 10.4 prywatna metoda:
+/*    // 10.4 prywatna metoda:
     private String slugifyCategoryName(String slug) {
         Slugify slugify = new Slugify();
         return slugify.withCustomReplacement("_", "-").slugify(slug);
-    }
+    }*/
 
     @PutMapping("/{id}") // 7.2 dodaję adnotację dla DTO:
     public AdminCategory updateCategory(@PathVariable Long id, @RequestBody AdminCategoryDto adminCategoryDto) {
