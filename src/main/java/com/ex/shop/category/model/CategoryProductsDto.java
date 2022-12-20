@@ -1,8 +1,9 @@
 package com.ex.shop.category.model;
 
-import com.ex.shop.product.model.Product;
+import com.ex.shop.product.controller.dto.ProductListDto;
 import org.springframework.data.domain.Page;
 
 // 39.0 tworzę DTO
-public record CategoryProductsDto(Category category, Page<Product> products) {
+//49.9 zmieniam Product na <ProductListDto>
+public record CategoryProductsDto(Category category, Page<ProductListDto> products) {
 }

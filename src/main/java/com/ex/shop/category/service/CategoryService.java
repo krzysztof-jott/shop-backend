@@ -3,10 +3,12 @@ package com.ex.shop.category.service;
 import com.ex.shop.category.model.Category;
 import com.ex.shop.category.model.CategoryProductsDto;
 import com.ex.shop.category.repository.CategoryRepository;
+import com.ex.shop.product.controller.dto.ProductListDto;
 import com.ex.shop.product.model.Product;
 import com.ex.shop.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +36,20 @@ public class CategoryService {
         // 38.4 te zapytania 2 powyżej powinny już pobrać i kategorie i produkty dla tej kategorii już postronicowane, muszę jeszcze
         // połączyć te wyniki. Robię DTO, które zbierze mi te dane.
         // 39.0 zwracam z DTO:
-        return new CategoryProductsDto(category, page); // dostosowuję to co zwracam i Category z metody zmienia się na CategoryProductsDto
+        // 49.7 robię kolejne przemapowanie (kopiuję z ProductController i zmieniam):
+        List<ProductListDto> productListDtos = page.getContent().stream()
+                // 49.4 teraz przemapuję pola:
+                .map(product -> ProductListDto.builder()
+                        .id(product.getId())
+                        .name(product.getName())
+                        .description(product.getDescription())
+                        .price(product.getPrice())
+                        .currency(product.getCurrency())
+                        .image(product.getImage())
+                        .slug(product.getSlug())
+                        .build())
+                .toList();
+        // 49.8 zamieniam page na to:
+        return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements())); // dostosowuję to co zwracam i Category z metody zmienia się na CategoryProductsDto
     }
 }
