@@ -12,7 +12,6 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-// 42.4 dodaję Buildera:
 @Builder // pomaga w łatwiejszy sposób tworzyć obiekty
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,4 +22,5 @@ public class Review {
     private Long productId;
     private String authorName;
     private String content;
+    private boolean moderated;
 }
