@@ -16,12 +16,10 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class ReviewController {
 
-    // 42.3 wstrzykuję serwis:
     private final ReviewService reviewService;
 
     @PostMapping("/reviews") // mapowanie postem, bo zapisuję nową opinię za każdym razem
-    public Review addReview(@RequestBody @Valid ReviewDto reviewDto) { // 44.1 dodaję @Valid
-        // muszę przemapować DTO na encję Review. Do encji dodaję Buildera
+    public Review addReview(@RequestBody @Valid ReviewDto reviewDto) {// muszę przemapować DTO na encję Review
         return reviewService.addReview(Review.builder()
                 .authorName(cleanContent(reviewDto.authorName()))
                 .content(cleanContent(reviewDto.content()))
@@ -30,7 +28,6 @@ public class ReviewController {
     }
 
     private String cleanContent(String text) {
-        return Jsoup.clean(text, Safelist.none()); // 43.0 wklejam z dokumentacji JSOUP, unsafe zamieniam na text i basic na none,
-        // chcę mieć tylko czysty tekst
+        return Jsoup.clean(text, Safelist.none()); // wklejam z dokumentacji JSOUP, unsafe zamieniam na text i basic na none,
     }
 }

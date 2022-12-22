@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
-// 7.0 tworzę DTO, do zapisu i edycji i ustawiam to DTO w metodach:
 @Getter
 public class AdminCategoryDto {
     @NotBlank

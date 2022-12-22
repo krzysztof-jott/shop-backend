@@ -14,7 +14,7 @@ public class AdminCategoryService {
     private final AdminCategoryRepository adminCategoryRepository;
 
     public List<AdminCategory> getCategories() {
-        return adminCategoryRepository.findAll(); // nie będę stronicować wyników, bo kategorii nie będzie tak dużo (dlatego findAll)
+        return adminCategoryRepository.findAll();
     }
 
     public AdminCategory getCategory(Long id) {

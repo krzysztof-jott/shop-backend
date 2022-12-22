@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 
-// 49.0 dodaję DTO
 @Getter
 @Builder
 public class ProductListDto {

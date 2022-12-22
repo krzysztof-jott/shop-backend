@@ -23,7 +23,6 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    // 29.0 tworzę standardowo wszystkie metody kontrolera:
     @GetMapping
     public List<Category> getCategories() { // tworzę encję Category w modelu
         return categoryService.getCategories();
@@ -32,8 +31,7 @@ public class CategoryController {
     @GetMapping("/{slug}/products")
     public CategoryProductsDto getCategoriesWithProducts(@PathVariable // dodaję walidację
                                               @Pattern(regexp = "[a-z0-9\\-]+")
-                                              @Length(max = 255) String slug, Pageable pageable) { // 38.0 dodaję Pageable
-        // tu też muszę dostosować to co zwracam, zamienia się u góry na Dto:
-        return categoryService.getCategoriesWithProducts(slug, pageable); // tu przekazuję pageable i idę do serwisu
+                                              @Length(max = 255) String slug, Pageable pageable) {
+        return categoryService.getCategoriesWithProducts(slug, pageable);
     }
 }

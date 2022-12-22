@@ -13,13 +13,12 @@ import java.math.BigDecimal;
 @Getter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor // trzeba dodać, bo z @Builder pojawia się błąd
+@AllArgsConstructor
 public class AdminProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-// 16.0 zmieniam pole na Long i dodaję Id
     private Long categoryId;
     private String description;
     private String fullDescription;

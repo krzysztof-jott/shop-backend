@@ -61,7 +61,6 @@ public class AdminProductController {
     public UploadResponse uploadImage(@RequestParam("file") MultipartFile multipartFile) {
         try (InputStream inputStream = multipartFile.getInputStream()) {
             String savedFileName = productImageService.uploadImage(multipartFile.getOriginalFilename(), inputStream);
-
             return new UploadResponse(savedFileName);
         } catch (IOException e) {
             throw new RuntimeException("coś poszło źle przy wgrywaniu pliku", e);
@@ -71,19 +70,17 @@ public class AdminProductController {
     @GetMapping("/data/productImage/{filename}")
     public ResponseEntity<Resource> serveFiles(@PathVariable String filename) throws IOException {
         Resource file = productImageService.serveFiles(filename);
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
                 .body(file); // teraz metoda będzie zwracała Resource, czyli plik zapisany na dysku
     }
 
     private static AdminProduct mapAdminProduct(AdminProductDto adminProductDto, Long id) {
-        return AdminProduct.builder() // to akurat w takiej formie (bo w DTO nie ma id?)
+        return AdminProduct.builder()
                 .id(id)
                 .name(adminProductDto.getName())
                 .description(adminProductDto.getDescription())
                 .fullDescription(adminProductDto.getFullDescription())
-//                16.2 tu też dodałem Id w mapowaniu:
                 .categoryId(adminProductDto.getCategoryId())
                 .price(adminProductDto.getPrice())
                 .currency(adminProductDto.getCurrency())

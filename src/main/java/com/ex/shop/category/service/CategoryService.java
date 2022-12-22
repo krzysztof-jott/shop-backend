@@ -26,19 +26,11 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    @Transactional(readOnly = true) // 39 readOnly stosujemy, gdy w metodzie nie zapisujemy encji, żadnych zapisów, aktualizacji encji. Hibernate
-    // nie śledzi wtedy zmian w encjach jak jest true. Dzięki temu transakcja działa trochę szybciej. Mechanizm Dirty Check w Hibernate jest wyłączony
-    public CategoryProductsDto getCategoriesWithProducts(String slug, Pageable pageable) { // 38.1 tu też dodaję Pagealbe
-        // zamiast return, przypisuję całość do zmiennej category;
+    @Transactional(readOnly = true)
+    public CategoryProductsDto getCategoriesWithProducts(String slug, Pageable pageable) {
         Category category = categoryRepository.findBySlug(slug);
-        // teraz pobieram produkty z danej kategorii i postronicuję je. Dodaję Page<> i wtedy metoda w serwisie już zwróci określony typ:
         Page<Product> page = productRepository.findByCategoryId(category.getId(), pageable); // dodaję pageable, żeby SpringData od razu postronicowało wyniki
-        // 38.4 te zapytania 2 powyżej powinny już pobrać i kategorie i produkty dla tej kategorii już postronicowane, muszę jeszcze
-        // połączyć te wyniki. Robię DTO, które zbierze mi te dane.
-        // 39.0 zwracam z DTO:
-        // 49.7 robię kolejne przemapowanie (kopiuję z ProductController i zmieniam):
         List<ProductListDto> productListDtos = page.getContent().stream()
-                // 49.4 teraz przemapuję pola:
                 .map(product -> ProductListDto.builder()
                         .id(product.getId())
                         .name(product.getName())
@@ -49,7 +41,6 @@ public class CategoryService {
                         .slug(product.getSlug())
                         .build())
                 .toList();
-        // 49.8 zamieniam page na to:
         return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements())); // dostosowuję to co zwracam i Category z metody zmienia się na CategoryProductsDto
     }
 }

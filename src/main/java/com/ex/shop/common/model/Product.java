@@ -19,7 +19,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // baza danych generuje wartości tej kolumny
     private Long id;
     private String name;
-    private Long categoryId; // 38.3 dodaję pole
+    private Long categoryId;
     private String description;
     private String fullDescription;
     private BigDecimal price;

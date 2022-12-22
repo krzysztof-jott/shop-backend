@@ -17,10 +17,8 @@ public class AdminProductService {
         return productRepository.findAll(pageable);
     }
 
-    // 16.1 teraz metoda w serwisie. Pobieranie pojedynczego produktu:
     public AdminProduct getProduct(Long id) {
-        return productRepository.findById(id).orElseThrow(); // 16.2 jest błąd, bo metoda findById zwraca Optionala, więc dodaję wyjątek po
-        // kropce. Jeśli w Optionalu istnieje AdminProduct to metoda go pobierze, jeśli nie wyrzuci wyjątek.
+        return productRepository.findById(id).orElseThrow();
     }
 
     public AdminProduct createProduct(AdminProduct product) {

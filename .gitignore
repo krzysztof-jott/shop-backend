@@ -33,3 +33,5 @@ build/
 ### VS Code ###
 .vscode/
 .gradle
+/.jpb/jpb-settings.xml
+/.jpb/persistence-units.xml

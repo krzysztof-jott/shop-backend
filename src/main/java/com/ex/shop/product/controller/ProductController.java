@@ -18,22 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
-@RestController // jak dodamy endpointy, to stworzy dla nich mapowanie
-@RequiredArgsConstructor // dodaję adnotację i mogę usunąć konstruktor poniżej
+@RestController // jak dodam endpointy, to stworzy dla nich mapowanie
+@RequiredArgsConstructor
 @Validated
 public class ProductController {
 
     private final ProductService productService;
 
     @GetMapping("/products")
-    // 49.6 zmieniam typ na typ zwracany (było Product):
     public Page<ProductListDto> getProducts(@PageableDefault(size = 15) Pageable pageable) {
-        // 49.1 robię zmienną z tego co zwraca return:
         Page<Product> products = productService.getProducts(pageable);
-        // 49.3 wyciągam z products listę produktów:
-        // 49.5 robię z tego zmienną zmienną:
         List<ProductListDto> productListDtos = products.getContent().stream()
-                // 49.4 teraz przemapuję pola:
                 .map(product -> ProductListDto.builder()
                         .id(product.getId())
                         .name(product.getName())
@@ -44,7 +39,6 @@ public class ProductController {
                         .slug(product.getSlug())
                         .build())
                 .toList();
-        // 49.2 i teraz zwracam to:
         return new PageImpl<>(productListDtos, pageable, products.getTotalElements()); // wyciągam total z products
     }
 

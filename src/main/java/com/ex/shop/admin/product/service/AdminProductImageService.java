@@ -28,9 +28,9 @@ public class AdminProductImageService {
         Path filePath = Paths.get(uploadDir).resolve(newFileName);
 
         try(OutputStream outputStream = Files.newOutputStream(filePath)) {
-            inputStream.transferTo(outputStream); // 11.13UP to też tu wrzuciłem do bloku z dołu
+            inputStream.transferTo(outputStream);
         } catch (IOException e) {
-            throw new RuntimeException("nie mogę zapisać pliku", e); // wyjątek, gdy nie mogę zapisać pliku do outputStreama
+            throw new RuntimeException("nie mogę zapisać pliku", e);
         }
         return newFileName; // zwracam nazwę nowozapisanego pliku
     }

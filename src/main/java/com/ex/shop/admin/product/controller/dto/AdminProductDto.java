@@ -14,9 +14,6 @@ public class AdminProductDto {
     @NotBlank // żeby Stringiem nie był tylko biały znak, np spacja
     @Length(min = 4)
     private String name;
-//    16.1 zamiast @NotBlack robię @NotNull skoro jest duży Long (Long mógłby być nullowy)
-//    @NotBlank
-//    @Length(min = 4) usuwam
     private Long categoryId;
     @NotBlank
     @Length(min = 4)
