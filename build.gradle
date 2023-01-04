@@ -32,6 +32,7 @@ dependencies {
 	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 	implementation group: 'com.github.slugify', name: 'slugify', version: '2.5'
 	implementation group: 'org.jsoup', name: 'jsoup', version: '1.15.3'
+	implementation group: 'org.webjars.npm', name: 'ngx-cookie-service', version: '14.0.0-rc.2'
 }
 
 tasks.named('test') {
