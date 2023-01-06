@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static java.time.LocalDateTime.now;
 
 @Service
@@ -50,5 +52,22 @@ public class CartService {
         }
         // jeśli koszyk istnieje:
         return cartRepository.findById(id).orElseThrow();
+    }
+
+    @Transactional // potrzebuję jednej transakcji do wszystkich operacji
+    // 13.2 dodaję metodę do serwisu:
+    public Cart updateCart(Long id, List<CartProductDto> cartProductDtos) {
+        // 13.3 pobieram koszyk
+        Cart cart = cartRepository.findById(id).orElseThrow();
+        // 13.4 do aktualizacji koszyka potrzebuję 2 streamów
+        cart.getItems().forEach(cartItem -> { // 13.5 iteruję po pierwszej pętli, po elementach koszyka, i muszę
+            // dopasować do każdego elementu każdy element, który mam w liście cartProductDtos, czyli drugą iterację robię
+            // po tej liście:
+            cartProductDtos.stream()
+                    .filter(cartProductDto -> cartItem.getProduct().getId().equals(cartProductDto.productId()))
+                    .findFirst()
+                    .ifPresent(cartProductDto -> cartItem.setQuantity(cartProductDto.quantity())); // quantity to rekord, więc nie ma get
+        });
+        return cart; // zwracam zaktualizowany koszyk
     }
 }

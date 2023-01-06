@@ -49,7 +49,6 @@ public class CartMapper { // 8.0
                 .price(product.getPrice())
                 .currency(product.getCurrency())
                 .image(product.getImage())
-                .price(product.getPrice())
                 .slug(product.getSlug())
                 .build();
     }
@@ -70,6 +69,7 @@ public class CartMapper { // 8.0
         return items.stream()
                 .map(CartMapper::calculateLineValue)
                 .reduce(BigDecimal::add)
-                .orElseThrow();
+                // 17.1 usuwam Throw i dodaję BigDecimal, bo wyskakuje błąd wyjątku przy pustym koszyku
+                .orElse(BigDecimal.ZERO);
     }
 }
