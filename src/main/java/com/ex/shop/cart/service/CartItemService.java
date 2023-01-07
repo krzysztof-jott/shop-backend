@@ -13,4 +13,9 @@ public class CartItemService {
     public void delete(Long id) {
         cartItemRepository.deleteById(id);
     }
+
+    // 19.3 dodaję metodę:
+    public Long countItemInCart(Long cartId) {
+        return cartItemRepository.countByCartId(cartId); // tworzę w repozytorium tę metodę
+    }
 }
