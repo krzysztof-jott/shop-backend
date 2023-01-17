@@ -1,6 +1,6 @@
 package com.ex.shop;
 
-import com.ex.shop.cart.repository.CartRepository;
+import com.ex.shop.common.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

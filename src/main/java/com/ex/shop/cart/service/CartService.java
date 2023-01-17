@@ -1,10 +1,10 @@
 package com.ex.shop.cart.service;
 
-import com.ex.shop.cart.model.Cart;
-import com.ex.shop.cart.model.CartItem;
 import com.ex.shop.cart.model.dto.CartProductDto;
-import com.ex.shop.cart.repository.CartRepository;
+import com.ex.shop.common.model.Cart;
+import com.ex.shop.common.model.CartItem;
 import com.ex.shop.common.model.Product;
+import com.ex.shop.common.repository.CartRepository;
 import com.ex.shop.common.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,14 +28,14 @@ public class CartService {
     // 4.7 dodaję adnotację:
     @Transactional
     public Cart addProductToCart(Long id, CartProductDto cartProductDto) {
-        Cart cart = getInitializedCart(id);// 3.3 wydzielona metoda
+        Cart cart = getInitializedCart(id); // 3.3 wydzielona metoda
         // 4.3
         cart.addProduct(CartItem.builder()
-                        .quantity(cartProductDto.quantity())
+                .quantity(cartProductDto.quantity())
                 // 4.4 tworzę metodę pomocniczą getProduct
-                        .product(getProduct(cartProductDto.productId()))
+                .product(getProduct(cartProductDto.productId()))
                 // 4.5 ustawiam cartId:
-                        .cartId(cart.getId())
+                .cartId(cart.getId())
                 .build());
         return cart;
     }
@@ -45,13 +45,15 @@ public class CartService {
     }
 
     private Cart getInitializedCart(Long id) {
-        if (id == null || id <= 0) { // 3.1 jeśli null to tworzę koszyk, dla zerowego id też się ma utworzyć
-            return cartRepository.save(Cart.builder()
-                    .created(now())
-                    .build()); // 3.2 wydzielam kod do prywatnej metody
+        if(id == null || id <= 0) { // 3.1 jeśli null to tworzę koszyk, dla zerowego id też się ma utworzyć
+            return saveNewCart();
         }
         // jeśli koszyk istnieje:
-        return cartRepository.findById(id).orElseThrow();
+        return cartRepository.findById(id).orElseGet(this::saveNewCart);
+    }
+
+    private Cart saveNewCart() {
+        return cartRepository.save(Cart.builder().created(now()).build()); //3.2 wydzielam kod do prywatnej metody
     }
 
     @Transactional // potrzebuję jednej transakcji do wszystkich operacji

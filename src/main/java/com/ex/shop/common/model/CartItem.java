@@ -1,6 +1,5 @@
-package com.ex.shop.cart.model;
+package com.ex.shop.common.model;
 
-import com.ex.shop.common.model.Product;
 import lombok.*;
 
 import javax.persistence.*;

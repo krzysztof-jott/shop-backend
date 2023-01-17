@@ -1,4 +1,4 @@
-package com.ex.shop.cart.model;
+package com.ex.shop.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +33,7 @@ public class Cart {
             items = new ArrayList<>();
         }
         // 12.4 filtruję listę w koszyku, czy są już te same produkty dodane, jeśli tak to ma się zwiększać quantity
-        items.stream()
+        new ArrayList<>(items).stream()
                 .filter(item -> Objects.equals(cartItem.getProduct().getId(), item.getProduct().getId()))
                 // 12.5 szukam pierwszego elementu, zwraca Optionala:
                 .findFirst()

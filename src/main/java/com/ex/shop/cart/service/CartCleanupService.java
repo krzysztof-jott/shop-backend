@@ -1,8 +1,8 @@
 package com.ex.shop.cart.service;
 
-import com.ex.shop.cart.model.Cart;
-import com.ex.shop.cart.repository.CartItemRepository;
-import com.ex.shop.cart.repository.CartRepository;
+import com.ex.shop.common.model.Cart;
+import com.ex.shop.common.repository.CartItemRepository;
+import com.ex.shop.common.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -38,7 +38,7 @@ public class CartCleanupService {
                 .map(Cart::getId)
                 .toList(); // i są już id pobrane
         log.info("stare koszyki " + carts.size()); // co 10 sekund wyświetla się log ile jest starych koszyków
-        carts.forEach(cart -> {
+//        carts.forEach(cart -> {
             // 26.2 zakomentowuję, robię nowe zapytania
             /*cartItemRepository.deleteByCartId(cart.getId()); // tworzę tę metodę w repozytorium
             // 25.2 dodaję kolejne zapytanie do usunięcia samego koszyka:
@@ -51,6 +51,5 @@ public class CartCleanupService {
                 // 26.5 druga metoda:
                 cartRepository.deleteAllByIdIn(ids);
             }
-        });
     }
 }
