@@ -7,10 +7,12 @@ import com.ex.shop.common.repository.CartRepository;
 import com.ex.shop.order.model.Order;
 import com.ex.shop.order.model.OrderRow;
 import com.ex.shop.order.model.OrderStatus;
+import com.ex.shop.order.model.Shipment;
 import com.ex.shop.order.model.dto.OrderDto;
 import com.ex.shop.order.model.dto.OrderSummary;
 import com.ex.shop.order.repository.OrderRepository;
 import com.ex.shop.order.repository.OrderRowRepository;
+import com.ex.shop.order.repository.ShipmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,8 @@ public class OrderService {
     private final OrderRowRepository orderRowRepository;
     // 13.1 wstrzykuję repo:
     private final CartItemRepository cartItemRepository;
+    // 22.0
+    private final ShipmentRepository shipmentRepository;
 
     // 10.0 implementuję metodę. Muszę stworzyć zamówienie z wierszami, pobrać koszyk i na jego podstawie zrobić wiersze,
     // zapisać zamówienie, usunąć koszyk i zwrócić podsumowanie:
@@ -37,6 +41,8 @@ public class OrderService {
 
         // 12.1 przeniesione Cart
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
+        // 23.1 przeniesiony shipment:
+        Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
         // 10.1 tworzę zamówienie:
         Order order = Order.builder()
                 .firstname(orderDto.getFirstname())
@@ -49,7 +55,8 @@ public class OrderService {
                 .placeDate(LocalDateTime.now())
                 .orderStatus(OrderStatus.NEW)
                 // 12.3 robię metodę pomocniczą:
-                .grossValue(calculateGrossValue(cart.getItems()))
+                // 23.2 dodaję parametr shipment:
+                .grossValue(calculateGrossValue(cart.getItems(), shipment))
                 .build();
         // zapisywanie zamówienia:
         Order newOrder = orderRepository.save(order);
@@ -59,8 +66,13 @@ public class OrderService {
         // 11.0 pobieram koszyk:
         // 12.0 przenoszę Cart do góry:
 //        Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
+
+        // 22.1 pobieram sposób dostawy:
+        // 23.0 przenoszę shipment wyżej:
+//        Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
         // 11.1 żeby stworzyć wiersze zamówienia z pozycji koszyka tworzę osobna metodę gdzie te kolejne wiersze zapisze:
-        saveOrderRows(cart, newOrder.getId()); // przekazuję koszyk i id nowego zamówienia
+        // 22.2 przekazuję shipment:
+        saveOrderRows(cart, newOrder.getId(), shipment); // przekazuję koszyk i id nowego zamówienia
 
         // 13.0 usuwanie koszyka. Najpierw muszę usunąć elementy koszyka:
         cartItemRepository.deleteByCartId(orderDto.getCartId());
@@ -74,17 +86,37 @@ public class OrderService {
                 .build();
     }
 
-    private BigDecimal calculateGrossValue(List<CartItem> items) {
+    private BigDecimal calculateGrossValue(List<CartItem> items, Shipment shipment) {
         return items.stream()
                 .map(cartItem -> cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
                 // quantity jest int więc trzeba go zamienić na BigDecimal
                 // muszę użyć reduce, żeby zredukować wszystkie BigDecimale do jednego BigDecimala:
                 .reduce(BigDecimal::add)
-                .orElse(BigDecimal.ZERO);
+                .orElse(BigDecimal.ZERO)
+                // 23.3 dodaję cenę dostawy:
+                .add(shipment.getPrice());
     }
 
     // 11.2 metoda:
-    private void saveOrderRows(Cart cart, Long orderId) {
+    private void saveOrderRows(Cart cart, Long orderId, Shipment shipment) {
+        saveProductRows(cart, orderId);
+
+        // 22.3 dodaję do metody (teraz jest wydzialona do prywatnej):
+        saveShipmentRow(orderId, shipment);
+    }
+
+    // 22.5 wydzielam do prywatnej metody:
+    private void saveShipmentRow(Long orderId, Shipment shipment) {
+        orderRowRepository.save(OrderRow.builder()   // buduję sposób dostawy:
+                .quantity(1)
+                .price(shipment.getPrice())
+                .shipmentId(shipment.getId())
+                .orderId(orderId)
+                .build());
+    }
+
+    // 22.4 wydzieliłem do prywatnej metody:
+    private void saveProductRows(Cart cart, Long orderId) {
         cart.getItems().stream()
                 .map(cartItem -> OrderRow.builder() // dodaję wszystkie pola, które są potrzebne:
                         .quantity(cartItem.getQuantity())
