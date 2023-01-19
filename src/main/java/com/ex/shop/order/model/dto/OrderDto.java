@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Builder
 public class OrderDto {
-
     @NotBlank
     private String firstname;
     @NotBlank
@@ -30,4 +29,6 @@ public class OrderDto {
     private Long cartId;
     @NotNull
     private Long shipmentId;
+    @NotNull
+    private Long paymentId; // 27.0
 }

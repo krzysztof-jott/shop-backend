@@ -17,7 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,4 +34,6 @@ public class Order {
     private String city;
     private String email;
     private String phone;
+    @OneToOne
+    private Payment payment; // muszę to zmapować, i to i Payment to encje, więc dodaję @OneToOne
 }

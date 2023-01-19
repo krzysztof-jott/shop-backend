@@ -4,14 +4,12 @@ import com.ex.shop.common.model.Cart;
 import com.ex.shop.common.model.CartItem;
 import com.ex.shop.common.repository.CartItemRepository;
 import com.ex.shop.common.repository.CartRepository;
-import com.ex.shop.order.model.Order;
-import com.ex.shop.order.model.OrderRow;
-import com.ex.shop.order.model.OrderStatus;
-import com.ex.shop.order.model.Shipment;
+import com.ex.shop.order.model.*;
 import com.ex.shop.order.model.dto.OrderDto;
 import com.ex.shop.order.model.dto.OrderSummary;
 import com.ex.shop.order.repository.OrderRepository;
 import com.ex.shop.order.repository.OrderRowRepository;
+import com.ex.shop.order.repository.PaymentRepository;
 import com.ex.shop.order.repository.ShipmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,6 +31,7 @@ public class OrderService {
     private final CartItemRepository cartItemRepository;
     // 22.0
     private final ShipmentRepository shipmentRepository;
+    private final PaymentRepository paymentRepository;
 
     // 10.0 implementuję metodę. Muszę stworzyć zamówienie z wierszami, pobrać koszyk i na jego podstawie zrobić wiersze,
     // zapisać zamówienie, usunąć koszyk i zwrócić podsumowanie:
@@ -43,6 +42,8 @@ public class OrderService {
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         // 23.1 przeniesiony shipment:
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
+        // pobieram sposób płatności:
+        Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
         // 10.1 tworzę zamówienie:
         Order order = Order.builder()
                 .firstname(orderDto.getFirstname())
@@ -57,6 +58,8 @@ public class OrderService {
                 // 12.3 robię metodę pomocniczą:
                 // 23.2 dodaję parametr shipment:
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
+                // 28.0 dodaję:
+                .payment(payment)
                 .build();
         // zapisywanie zamówienia:
         Order newOrder = orderRepository.save(order);
@@ -83,6 +86,8 @@ public class OrderService {
                 .placeDate(newOrder.getPlaceDate())
                 .status(newOrder.getOrderStatus())
                 .grossValue(newOrder.getGrossValue())
+                // zmieniam podsumowanie, najpierw w OrderSummary muszę dodać paymanet:
+                .payment(payment)
                 .build();
     }
 
@@ -111,6 +116,7 @@ public class OrderService {
                 .quantity(1)
                 .price(shipment.getPrice())
                 .shipmentId(shipment.getId())
+
                 .orderId(orderId)
                 .build());
     }

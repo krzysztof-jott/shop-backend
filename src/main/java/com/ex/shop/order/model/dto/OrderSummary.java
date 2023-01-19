@@ -1,6 +1,7 @@
 package com.ex.shop.order.model.dto;
 
 import com.ex.shop.order.model.OrderStatus;
+import com.ex.shop.order.model.Payment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,4 +24,5 @@ public class OrderSummary {
     private LocalDateTime placeDate;
     private OrderStatus status;
     private BigDecimal grossValue;
+    private Payment payment;
 }
