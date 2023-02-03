@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 //@NoArgsConstructor NIE JEST TU POTRZEBNY, TYLKO W ENCJACH!!!
 public class OrderSummary {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
