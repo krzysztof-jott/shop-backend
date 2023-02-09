@@ -3,8 +3,10 @@ package com.ex.shop.admin.order.model;
 public enum AdminOrderStatus {
     // 4.0 dodaję statusy z frontu
     NEW("Nowe"),
+    PROCESSING("Przetwarzane"),
     PAID("Opłacone"),
-    COMPLETED("Zrealizowane");
+    COMPLETED("Zrealizowane"),
+    REFUND("Zwrócono środki");
 
     // 4.1 dodaję pole:
     private String value;
