@@ -34,6 +34,7 @@ dependencies {
 	implementation group: 'org.jsoup', name: 'jsoup', version: '1.15.3'
 	implementation group: 'org.webjars.npm', name: 'ngx-cookie-service', version: '14.0.0-rc.2'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.10.0'
 	testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.24.2'
 }
 
