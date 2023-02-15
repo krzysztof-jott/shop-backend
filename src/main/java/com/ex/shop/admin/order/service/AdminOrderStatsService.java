@@ -49,12 +49,18 @@ public class AdminOrderStatsService {// wstrzykuję w kontrolerze
             // tworzę metodę prywatną:
             result.put(i, aggregateValues(i, orders));
         }*/
+        List<Long> orderList = result.values().stream()
+                .map(v -> v.orders()).toList();
+        List<BigDecimal> salesList = result.values().stream()
+                .map(v -> v.sales()).toList();
 
         // muszę podzielić mapę i zwrócić w DTO:
         return AdminOrderStats.builder()
                 .label(result.keySet().stream().toList())   // wyciągam klucze, które będą dniami, wyrzuci posortowany set z kluczami map
                 .sale(result.values().stream().map(o -> o.sales).toList())
                 .order(result.values().stream().map(o -> o.orders).toList())
+                .ordersCount(orderList.stream().reduce(Long::sum).orElse(0L))
+                .salesSum(salesList.stream().reduce(BigDecimal::add).orElse(BigDecimal.ZERO))
                 .build();
     }
 
