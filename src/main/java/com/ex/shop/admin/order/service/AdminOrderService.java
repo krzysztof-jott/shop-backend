@@ -57,6 +57,10 @@ public class AdminOrderService {
     private void processOrderStatusChange(AdminOrder adminOrder, Map<String, String> values) {
         AdminOrderStatus oldStatus = adminOrder.getOrderStatus();
         AdminOrderStatus newStatus = AdminOrderStatus.valueOf(values.get("orderStatus"));
+        // 28.0 dodaję if:
+        if (oldStatus == newStatus) {
+            return;
+        }
         adminOrder.setOrderStatus(newStatus);
         //adminOrder.setOrderStatus(AdminOrderStatus.valueOf(values.get("orderStatus")));
         // 9.1 wywołuję metodę i tworzę zmienne old i newStatus:
