@@ -5,6 +5,7 @@ import com.ex.shop.admin.product.controller.dto.UploadResponse;
 import com.ex.shop.admin.product.model.AdminProduct;
 import com.ex.shop.admin.product.service.AdminProductImageService;
 import com.ex.shop.admin.product.service.AdminProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;

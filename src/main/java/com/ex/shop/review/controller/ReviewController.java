@@ -3,14 +3,13 @@ package com.ex.shop.review.controller;
 import com.ex.shop.common.model.Review;
 import com.ex.shop.review.controller.dto.ReviewDto;
 import com.ex.shop.review.service.ReviewService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor

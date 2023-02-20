@@ -1,9 +1,8 @@
 package com.ex.shop.admin.order.model;
 
 import com.ex.shop.order.model.PaymentType;
+import jakarta.persistence.*;
 import lombok.Getter;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "payment")

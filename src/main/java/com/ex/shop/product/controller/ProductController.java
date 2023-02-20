@@ -4,6 +4,7 @@ import com.ex.shop.common.dto.ProductListDto;
 import com.ex.shop.common.model.Product;
 import com.ex.shop.product.service.ProductService;
 import com.ex.shop.product.service.dto.ProductDto;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController // jak dodam endpointy, to stworzy dla nich mapowanie

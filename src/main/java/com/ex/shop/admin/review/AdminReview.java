@@ -1,8 +1,7 @@
 package com.ex.shop.admin.review;
 
+import jakarta.persistence.*;
 import lombok.Getter;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "review")

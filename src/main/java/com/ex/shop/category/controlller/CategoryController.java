@@ -3,6 +3,7 @@ package com.ex.shop.category.controlller;
 import com.ex.shop.category.dto.CategoryProductsDto;
 import com.ex.shop.category.service.CategoryService;
 import com.ex.shop.common.model.Category;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController

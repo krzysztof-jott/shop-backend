@@ -2,13 +2,13 @@ package com.ex.shop.order.model.dto;
 
 import com.ex.shop.order.model.OrderStatus;
 import com.ex.shop.order.model.Payment;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

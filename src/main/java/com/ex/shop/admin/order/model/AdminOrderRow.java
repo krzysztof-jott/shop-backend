@@ -2,9 +2,9 @@ package com.ex.shop.admin.order.model;
 
 import com.ex.shop.admin.product.model.AdminProduct;
 import com.ex.shop.order.model.Shipment;
+import jakarta.persistence.*;
 import lombok.Getter;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
