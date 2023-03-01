@@ -1,5 +1,6 @@
 package com.ex.shop.security;
 
+import com.ex.shop.security.model.UserRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity(debug = true) // włącza logi Spring Security
@@ -32,7 +30,8 @@ public class SecurityConfig {
                                            UserDetailsService userDetailsService) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                 // chcę mieć zablokowany panel admina i odblokowany dostęp do części ogólnej:
-                .requestMatchers("/admin/**").authenticated() // wszystko co po admin jest zablokowane
+                // 33.0 zamieniam authenticated() na hasRole()
+                .requestMatchers("/admin/**").hasRole(UserRole.ROLE_ADMIN.getRole()) // wszystko co po admin jest zablokowane
                 .anyRequest().permitAll()); // wszystkie inne są dostępne
         http.csrf().disable(); // wyłączam csrf
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // wyłączam sesje http, będzie bezstanowa
@@ -47,16 +46,17 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Bean
+    // 40.1 usuwam beana:
+/*    @Bean
     public UserDetailsService userDetailsService(DataSource dataSource) {
 
         // 22.0 usuwam,
-/*        UserDetails admin = User.withDefaultPasswordEncoder()
+*//*        UserDetails admin = User.withDefaultPasswordEncoder()
                 .username("admin")
                 .password("test")
                 .roles("ADMIN")
-                .build();*/
+                .build();*//*
         // 22.1 i teraz mam bazodanowego user details menadzera:
         return new JdbcUserDetailsManager(dataSource); // teraz mogę zaczytać użytkowników z bazy danych
-    }
+    }*/
 }
