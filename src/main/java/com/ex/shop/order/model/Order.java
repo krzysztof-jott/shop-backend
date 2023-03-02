@@ -36,4 +36,6 @@ public class Order {
     private String phone;
     @OneToOne
     private Payment payment; // muszę to zmapować, i to i Payment to encje, więc dodaję @OneToOne
+    // 49.0 dodaję pole:
+    private Long userId;
 }

@@ -7,6 +7,7 @@ import com.ex.shop.order.service.OrderService;
 import com.ex.shop.order.service.PaymentService;
 import com.ex.shop.order.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,11 +20,14 @@ public class OrderController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public OrderSummary placeOrder(@RequestBody OrderDto orderDto) {
-        return orderService.placeOrder(orderDto);
+    public OrderSummary placeOrder(@RequestBody OrderDto orderDto, @AuthenticationPrincipal Long userId) {
+        return orderService.placeOrder(orderDto, userId);
     }
 
     @GetMapping("/initData")
+    // 47.0 dodaję adnotację AuthenticationPrincipal
+    // 48.1 teraz zmieniam String na Long i name na userId:
+    // 48.2 przenoszę teraz całą adnotację do metody placeOrder
     public initOrder initData() { // 15.0 towrzę DTO w modelu
         // 16.1 dokańczam
         return initOrder.builder()

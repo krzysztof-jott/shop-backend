@@ -12,7 +12,7 @@ import java.util.List;
 
 public class OrderMapper {
 
-    public static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment) {
+    public static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment, Long userId) {
         return Order.builder()
                 .firstname(orderDto.getFirstname())
                 .lastname(orderDto.getLastname())
@@ -28,6 +28,8 @@ public class OrderMapper {
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
                 // 28.0 dodaję:
                 .payment(payment)
+                // 49.1 dodaję pole;
+                .userId(userId)
                 .build();
     }
 

@@ -2,6 +2,7 @@ package com.ex.shop.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.ex.shop.security.model.ShopUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -28,6 +28,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         this.userDetailsService = userDetailsService;
         this.secret = secret;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws IOException, ServletException {
@@ -48,8 +49,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();
             if (userName != null) {
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-                return new UsernamePasswordAuthenticationToken(userDetails.getUsername(), null, userDetails.getAuthorities());
+                // 48.0 zmieniam UserDetails na ShopUserDetails i getUsername na getId. Muszę zrobić rzutowanie:
+                ShopUserDetails shopUserDetails = (ShopUserDetails) userDetailsService.loadUserByUsername(userName);
+                return new UsernamePasswordAuthenticationToken(shopUserDetails.getId(), null, shopUserDetails.getAuthorities());
             }
         }
         return null;

@@ -43,7 +43,7 @@ public class OrderService {
     // 10.0 implementuję metodę. Muszę stworzyć zamówienie z wierszami, pobrać koszyk i na jego podstawie zrobić wiersze,
     // zapisać zamówienie, usunąć koszyk i zwrócić podsumowanie:
     @Transactional
-    public OrderSummary placeOrder(OrderDto orderDto) {
+    public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
 
         // 12.1 przeniesione Cart
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
@@ -54,7 +54,7 @@ public class OrderService {
         // 10.1 tworzę zamówienie:
         // 44.0 wydzielam order do metody prywatnej i inlajnuje ten order i ten poniżej:
         // zapisywanie zamówienia:
-        Order newOrder = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment));
+        Order newOrder = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment, userId));
         // 10.2 do stworzenia wierszy zamówień będę potrzebował pobrać zawartość koszyka, czyli to co jest tutaj i
         // będę potrzebować cen produktów i ich ilości w koszyku.Żeby pobrać koszyk, mogę skorzystać z repozytorium koszyka,
         // i najlepiej jak je przeniosę do common, bo będę je współdzielić.

@@ -67,9 +67,9 @@ class OrderServiceTest {
         when(orderRepository.save(any())).thenAnswer(invocation -> invocation.getArguments()[0]);
         when(emailSender.getInstance()).thenReturn(new FakeEmailService());
 
-
+        Long userId = 1L;
         //when
-        OrderSummary orderSummary = orderService.placeOrder(orderDto);
+        OrderSummary orderSummary = orderService.placeOrder(orderDto, userId);
         //then
         assertThat(orderSummary).isNotNull();
         assertThat(orderSummary.getStatus()).isEqualTo(OrderStatus.NEW);
@@ -78,7 +78,6 @@ class OrderServiceTest {
         assertThat(orderSummary.getPayment().getType()).isEqualTo(PaymentType.BANK_TRANSFER);
         assertThat(orderSummary.getPayment().getName()).isEqualTo("test payment");
         assertThat(orderSummary.getPayment().getId()).isEqualTo(1L);
-
     }
 
     private Optional<Payment> createPayment() {
@@ -126,7 +125,6 @@ class OrderServiceTest {
                                 .price(new BigDecimal("11.11"))
                                 .build())
                         .build());
-
     }
 
     private OrderDto createOrderDto() {
