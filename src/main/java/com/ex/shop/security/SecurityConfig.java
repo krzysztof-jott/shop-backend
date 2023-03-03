@@ -4,6 +4,7 @@ import com.ex.shop.security.model.UserRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,6 +33,9 @@ public class SecurityConfig {
                 // chcę mieć zablokowany panel admina i odblokowany dostęp do części ogólnej:
                 // 33.0 zamieniam authenticated() na hasRole()
                 .requestMatchers("/admin/**").hasRole(UserRole.ROLE_ADMIN.getRole()) // wszystko co po admin jest zablokowane
+                // 60.0 dodaję requestMatchers, zadziała dla każdej metody, która jest zmapowana GETem i ma url /orders
+                // i to już da autoryzację dla tej metody. Można tak ustawiać autoryzacje dla różnych metod i urli:
+                .requestMatchers(HttpMethod.GET, "/orders").authenticated()
                 .anyRequest().permitAll()); // wszystkie inne są dostępne
         http.csrf().disable(); // wyłączam csrf
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // wyłączam sesje http, będzie bezstanowa
