@@ -1,8 +1,6 @@
-/* USUWAM
-package com.ex.shop.admin.order.model;
+package com.ex.shop.common.model;
 
 public enum OrderStatus {
-    // 4.0 dodaję statusy z frontu
     NEW("Nowe"),
     PAID("Opłacone"),
     PROCESSING("Przetwarzane"),
@@ -22,4 +20,4 @@ public enum OrderStatus {
     public String getValue() {
         return value;
     }
-}*/
+}

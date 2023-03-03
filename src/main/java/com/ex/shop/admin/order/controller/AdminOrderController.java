@@ -4,8 +4,8 @@ import com.ex.shop.admin.order.controller.dto.AdminInitDataDto;
 import com.ex.shop.admin.order.controller.dto.AdminOrderDto;
 import com.ex.shop.admin.order.controller.mapper.AdminOrderMapper;
 import com.ex.shop.admin.order.model.AdminOrder;
-import com.ex.shop.admin.order.model.AdminOrderStatus;
 import com.ex.shop.admin.order.service.AdminOrderService;
+import com.ex.shop.common.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +48,7 @@ public class AdminOrderController {
         // 3.2 potrzebuję mapy, która będzie zawierała statusy:
         HashMap<String, String> statuses = new HashMap<>();
         // 4.3 wypełniam mapę statusami:
-        for (AdminOrderStatus value : AdminOrderStatus.values()) {
+        for (OrderStatus value : OrderStatus.values()) {
             statuses.put(value.name(), value.getValue());
         }
         return statuses;

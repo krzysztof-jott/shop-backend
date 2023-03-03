@@ -1,6 +1,6 @@
 package com.ex.shop.order.model.dto;
 
-import com.ex.shop.order.model.OrderStatus;
+import com.ex.shop.common.model.OrderStatus;
 import com.ex.shop.order.model.Payment;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

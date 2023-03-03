@@ -1,7 +1,7 @@
 package com.ex.shop.admin.order.repository;
 
 import com.ex.shop.admin.order.model.AdminOrder;
-import com.ex.shop.admin.order.model.AdminOrderStatus;
+import com.ex.shop.common.model.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface AdminOrderRepository extends JpaRepository<AdminOrder, Long> {
 
-    List<AdminOrder> findAllByPlaceDateIsBetweenAndOrderStatus(LocalDateTime from, LocalDateTime to, AdminOrderStatus orderStatus);
+    List<AdminOrder> findAllByPlaceDateIsBetweenAndOrderStatus(LocalDateTime from, LocalDateTime to, OrderStatus orderStatus);
 }

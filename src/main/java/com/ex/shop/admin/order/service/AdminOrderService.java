@@ -2,9 +2,9 @@ package com.ex.shop.admin.order.service;
 
 import com.ex.shop.admin.order.model.AdminOrder;
 import com.ex.shop.admin.order.model.AdminOrderLog;
-import com.ex.shop.admin.order.model.AdminOrderStatus;
 import com.ex.shop.admin.order.repository.AdminOrderLogRepository;
 import com.ex.shop.admin.order.repository.AdminOrderRepository;
+import com.ex.shop.common.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -55,14 +55,14 @@ public class AdminOrderService {
     }
 
     private void processOrderStatusChange(AdminOrder adminOrder, Map<String, String> values) {
-        AdminOrderStatus oldStatus = adminOrder.getOrderStatus();
-        AdminOrderStatus newStatus = AdminOrderStatus.valueOf(values.get("orderStatus"));
+        OrderStatus oldStatus = adminOrder.getOrderStatus();
+        OrderStatus newStatus = OrderStatus.valueOf(values.get("orderStatus"));
         // 28.0 dodaję if:
         if (oldStatus == newStatus) {
             return;
         }
         adminOrder.setOrderStatus(newStatus);
-        //adminOrder.setOrderStatus(AdminOrderStatus.valueOf(values.get("orderStatus")));
+        //adminOrder.setOrderStatus(OrderStatus.valueOf(values.get("orderStatus")));
         // 9.1 wywołuję metodę i tworzę zmienne old i newStatus:
         logStatusChange(adminOrder.getId(), oldStatus, newStatus);
         // 12.1 dodaję jeszcze jedną metodę, która będzie wysyłać powiadomienia:
@@ -71,18 +71,18 @@ public class AdminOrderService {
 
     // przenoszę te 2 metody do EmailNotificationForStatusChange:
  /*   // 12.2 wysyłam tylko niektóre zmiany statusów, żeby nie spamować:
-    private void sendEmailNotification(AdminOrderStatus newStatus, AdminOrder adminOrder) {
-        if (newStatus == AdminOrderStatus.PROCESSING) {
+    private void sendEmailNotification(OrderStatus newStatus, AdminOrder adminOrder) {
+        if (newStatus == OrderStatus.PROCESSING) {
             // 12.3 metoda do wysyłania mejla:
             sendEmail(adminOrder.getEmail(),
                     "Zamówienie " + adminOrder.getId() + " zmieniło status na " + newStatus.getValue(),
                     // potrzebuję id i stsatusu zamówienia:
                     createProcessingEmailMessage(adminOrder.getId(), newStatus)); // dodaję statyczny import
-        } else if (newStatus == AdminOrderStatus.COMPLETED) {
+        } else if (newStatus == OrderStatus.COMPLETED) {
             sendEmail(adminOrder.getEmail(),
                     "Zamówienie " + adminOrder.getId() + " zostało zrealizowane",
                     createCompletedEmailMessage(adminOrder.getId(), newStatus));
-        } else if (newStatus == AdminOrderStatus.REFUND) {
+        } else if (newStatus == OrderStatus.REFUND) {
             sendEmail(adminOrder.getEmail(),
                     "Zamówienie " + adminOrder.getId() + " zostało zwrócone",
                     createRefundEmailMessage(adminOrder.getId(), newStatus));
@@ -95,7 +95,7 @@ public class AdminOrderService {
     }*/
 
     // 9.0
-    private void logStatusChange(Long orderId, AdminOrderStatus oldStatus, AdminOrderStatus newStatus) {
+    private void logStatusChange(Long orderId, OrderStatus oldStatus, OrderStatus newStatus) {
         // 9.3 tworzę encję builderem:
         adminOrderLogRepository.save(AdminOrderLog.builder()
                 .created(LocalDateTime.now())

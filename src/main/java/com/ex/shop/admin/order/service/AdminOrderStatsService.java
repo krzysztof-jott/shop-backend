@@ -1,9 +1,9 @@
 package com.ex.shop.admin.order.service;
 
 import com.ex.shop.admin.order.model.AdminOrder;
-import com.ex.shop.admin.order.model.AdminOrderStatus;
 import com.ex.shop.admin.order.model.dto.AdminOrderStats;
 import com.ex.shop.admin.order.repository.AdminOrderRepository;
+import com.ex.shop.common.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class AdminOrderStatsService {// wstrzykuję w kontrolerze
         LocalDateTime to = LocalDateTime.now();
         List<AdminOrder> orders = adminOrderRepository.findAllByPlaceDateIsBetweenAndOrderStatus( // przerabiam na zmienne from, to, żeby
                 // wyznaczyć zakres dat
-                from, to, AdminOrderStatus.COMPLETED); // zapisuję do DTO:
+                from, to, OrderStatus.COMPLETED); // zapisuję do DTO:
 
         // rangeClosed - ostatni dzień zakresu też ma należeć:
         TreeMap<Integer, AdminOrderStatsValue> result = IntStream.rangeClosed(from.getDayOfMonth(), to.getDayOfMonth())

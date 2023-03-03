@@ -4,10 +4,10 @@ import com.ex.shop.common.mail.EmailClientService;
 import com.ex.shop.common.mail.FakeEmailService;
 import com.ex.shop.common.model.Cart;
 import com.ex.shop.common.model.CartItem;
+import com.ex.shop.common.model.OrderStatus;
 import com.ex.shop.common.model.Product;
 import com.ex.shop.common.repository.CartItemRepository;
 import com.ex.shop.common.repository.CartRepository;
-import com.ex.shop.order.model.OrderStatus;
 import com.ex.shop.order.model.Payment;
 import com.ex.shop.order.model.PaymentType;
 import com.ex.shop.order.model.Shipment;
@@ -36,7 +36,6 @@ import static org.mockito.Mockito.when;
 class OrderServiceTest {
 
 //    private static final LocalDateTime PLACE_DATE = LocalDateTime.now(); nie testuję daty, jest mało istotna
-
     @Mock
     private CartRepository cartRepository; // 46.0
     @Mock

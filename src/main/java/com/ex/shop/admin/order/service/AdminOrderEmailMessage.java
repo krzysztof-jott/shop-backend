@@ -1,10 +1,11 @@
 package com.ex.shop.admin.order.service;
 
-import com.ex.shop.admin.order.model.AdminOrderStatus;
+import com.ex.shop.common.model.OrderStatus;
+
 // 12.5
 public class AdminOrderEmailMessage {
 
-    public static String createProcessingEmailMessage(Long id, AdminOrderStatus newStatus) {
+    public static String createProcessingEmailMessage(Long id, OrderStatus newStatus) {
         return "Twoje zamówienie " + id + " jest przetwarzane." +
                 "\nStatus został zmieniony na: " + newStatus.getValue() +
                 "\nTwoje zamówienie jest przetwarzane przez naszych pracowników" +
@@ -13,14 +14,14 @@ public class AdminOrderEmailMessage {
                 "\n Sklepik";
     }
 
-    public static String createCompletedEmailMessage(Long id, AdminOrderStatus newStatus) {
+    public static String createCompletedEmailMessage(Long id, OrderStatus newStatus) {
         return "Twoje zamówienie " + id + " zostało zrealizowane." +
                 "\nStatus twojego zamówienia został zmieniony na: " + newStatus.getValue() +
                 "\n\n Dziękujemy za zakupki i zapraszamy ponownie" +
                 "\n Sklepik";
     }
 
-    public static String createRefundEmailMessage(Long id, AdminOrderStatus newStatus) {
+    public static String createRefundEmailMessage(Long id, OrderStatus newStatus) {
         return "Twoje zamówienie " + id + " zostało zwrócone." +
                 "\nStatus twojego zamówienia został zmieniony na: " + newStatus.getValue() +
                 "\n\n Pa" +

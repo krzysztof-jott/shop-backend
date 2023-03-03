@@ -1,8 +1,8 @@
 package com.ex.shop.admin.order.controller;
 
 import com.ex.shop.admin.order.model.AdminOrder;
-import com.ex.shop.admin.order.model.AdminOrderStatus;
 import com.ex.shop.admin.order.service.AdminExportService;
+import com.ex.shop.common.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -47,7 +47,7 @@ public class AdminOrderExportController {
     public ResponseEntity<Resource> exportOrders(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate to,
-            @RequestParam AdminOrderStatus orderStatus
+            @RequestParam OrderStatus orderStatus
     ) {
         // 17.X metoda, która pozwoli pobrać odpowiednie dane:
         List<AdminOrder> adminOrders = adminExportService.exportOrders(

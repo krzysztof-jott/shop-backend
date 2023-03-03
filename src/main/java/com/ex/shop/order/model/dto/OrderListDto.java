@@ -1,22 +1,18 @@
-package com.ex.shop.admin.order.controller.dto;
+package com.ex.shop.order.model.dto;
 
-import com.ex.shop.common.model.OrderStatus;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
 @AllArgsConstructor
-@NoArgsConstructor
-public class AdminOrderDto {
+public class OrderListDto { // 51.0
 
     private Long id;
     private LocalDateTime placeDate;
-    private OrderStatus orderStatus;
+    // 56.1 zmieniam OrderStatus na String
+    private String orderStatus;
     private BigDecimal grossValue;
 }

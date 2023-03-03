@@ -8,6 +8,7 @@ import com.ex.shop.order.model.Order;
 import com.ex.shop.order.model.Payment;
 import com.ex.shop.order.model.Shipment;
 import com.ex.shop.order.model.dto.OrderDto;
+import com.ex.shop.order.model.dto.OrderListDto;
 import com.ex.shop.order.model.dto.OrderSummary;
 import com.ex.shop.order.repository.OrderRepository;
 import com.ex.shop.order.repository.OrderRowRepository;
@@ -18,6 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static com.ex.shop.order.service.mapper.OrderDtoMapper.mapToOrderListDto;
 import static com.ex.shop.order.service.mapper.OrderEmailMessageMapper.createEmailMessage;
 import static com.ex.shop.order.service.mapper.OrderMapper.*;
 
@@ -178,6 +182,7 @@ public class OrderService {
                 .toList();
     }
 
+
     /*private static OrderRow mapToOrderRowWithQuantity(Long orderId, CartItem cartItem) {
         return OrderRow.builder() // dodaję wszystkie pola, które są potrzebne:
                 .quantity(cartItem.getQuantity())
@@ -185,5 +190,24 @@ public class OrderService {
                 .price(cartItem.getProduct().getPrice())
                 .orderId(orderId)
                 .build();
+    }*/
+
+    public List<OrderListDto> getOrdersForCustomer(Long userId) {
+        // 50.1 dorabiam metodę serwisową, która te zamówienia będzie zwracała:
+        // 51.1 dodaję metodę prywatną mapTo...:
+        return mapToOrderListDto(orderRepository.findByUserId(userId)); // i metoda w repozytorium
+    }
+
+    // 51.2 tutaj już zwracam OrderListDto, a nie Order, ogólnie wszędzie tu zmieniam teraz Order na OrderListDto:
+    // 52.0 przenoszę metodę do mappera OrderDtoMapper, żeby tu nie zaśmiecać:
+ /*   private List<OrderListDto> mapToOrderListDto(List<Order> orders) {
+        // 51.3 przemapowuję za pomocą strumienia:
+        return orders.stream()
+                .map(order -> new OrderListDto(
+                        order.getId(),
+                        order.getPlaceDate(),
+                        order.getOrderStatus(),
+                        order.getGrossValue()))
+                .toList();
     }*/
 }

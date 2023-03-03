@@ -1,6 +1,7 @@
 package com.ex.shop.order.controller;
 
 import com.ex.shop.order.model.dto.OrderDto;
+import com.ex.shop.order.model.dto.OrderListDto;
 import com.ex.shop.order.model.dto.OrderSummary;
 import com.ex.shop.order.model.dto.initOrder;
 import com.ex.shop.order.service.OrderService;
@@ -9,6 +10,8 @@ import com.ex.shop.order.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,5 +38,17 @@ public class OrderController {
                 // 25.0 dodaję payment i tworzę metodę i dodaję do serwisu:
                 .payments(paymentService.getPayments())
                 .build();
+    }
+
+    // 50.0 usługa do pobierania zamówień:
+    @GetMapping
+    public List<OrderListDto> getOrders(@AuthenticationPrincipal Long userId) {
+        // 58.1 dodaję wyjątek, żeby nie wyswietlały się wszystkie zamówienia nieprzypisane do użytkowników:
+        if (userId == null) {
+            throw new IllegalArgumentException("Brak użytkownika");
+        }
+        // 50.1 dorabiam metodę serwisową, która te zamówienia będzie zwracała:
+        // 51.1 dodaję metodę prywatną mapTo...:
+        return orderService.getOrdersForCustomer(userId);
     }
 }
