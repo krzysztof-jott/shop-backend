@@ -40,6 +40,8 @@ dependencies {
 	implementation group: 'com.auth0', name: 'java-jwt', version: '4.3.0'
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
 	// dla Spring Boot 3.0 swagger
+	// https://mvnrepository.com/artifact/commons-codec/commons-codec
+	implementation group: 'commons-codec', name: 'commons-codec', version: '1.15'
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.0.2'
 	testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.24.2'
 }
