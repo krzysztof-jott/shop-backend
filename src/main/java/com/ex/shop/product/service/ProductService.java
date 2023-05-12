@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -34,24 +33,25 @@ public class ProductService {
 
     private ProductDto mapToProductDto(Product product, List<Review> reviews) {
         return ProductDto.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .categoryId(product.getCategoryId())
-                .description(product.getDescription())
-                .fullDescription(product.getFullDescription())
-                .price(product.getPrice())
-                .currency(product.getCurrency())
-                .image(product.getImage())
-                .slug(product.getSlug())
-                .reviews(reviews.stream()
-                        .map(review -> ReviewDto.builder()
-                                .id(review.getId())
-                                .productId(review.getProductId())
-                                .authorName(review.getAuthorName())
-                                .content(review.getContent())
-                                .moderated(review.isModerated())
-                                .build())
-                        .toList())
-                .build();
+                         .id(product.getId())
+                         .name(product.getName())
+                         .categoryId(product.getCategoryId())
+                         .description(product.getDescription())
+                         .fullDescription(product.getFullDescription())
+                         .price(product.getPrice())
+                         .salePrice(product.getSalePrice())
+                         .currency(product.getCurrency())
+                         .image(product.getImage())
+                         .slug(product.getSlug())
+                         .reviews(reviews.stream()
+                                         .map(review -> ReviewDto.builder()
+                                                                 .id(review.getId())
+                                                                 .productId(review.getProductId())
+                                                                 .authorName(review.getAuthorName())
+                                                                 .content(review.getContent())
+                                                                 .moderated(review.isModerated())
+                                                                 .build())
+                                         .toList())
+                         .build();
     }
 }

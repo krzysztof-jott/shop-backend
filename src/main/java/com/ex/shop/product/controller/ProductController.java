@@ -15,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 @RestController // jak dodam endpointy, to stworzy dla nich mapowanie
@@ -28,17 +27,20 @@ public class ProductController {
     @GetMapping("/products")
     public Page<ProductListDto> getProducts(@PageableDefault(size = 15) Pageable pageable) {
         Page<Product> products = productService.getProducts(pageable);
-        List<ProductListDto> productListDtos = products.getContent().stream()
-                .map(product -> ProductListDto.builder()
-                        .id(product.getId())
-                        .name(product.getName())
-                        .description(product.getDescription())
-                        .price(product.getPrice())
-                        .currency(product.getCurrency())
-                        .image(product.getImage())
-                        .slug(product.getSlug())
-                        .build())
-                .toList();
+        List<ProductListDto> productListDtos = products.getContent()
+                                                       .stream()
+                                                       .map(product ->
+                                                               ProductListDto.builder()
+                                                                                     .id(product.getId())
+                                                                                     .name(product.getName())
+                                                                                     .description(product.getDescription())
+                                                                                     .price(product.getPrice())
+                                                                                     .salePrice(product.getSalePrice())
+                                                                                     .currency(product.getCurrency())
+                                                                                     .image(product.getImage())
+                                                                                     .slug(product.getSlug())
+                                                                                     .build())
+                                                       .toList();
         return new PageImpl<>(productListDtos, pageable, products.getTotalElements()); // wyciągam total z products
     }
 

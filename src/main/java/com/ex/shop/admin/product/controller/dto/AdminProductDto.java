@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
-
 import java.math.BigDecimal;
 
 @Getter
@@ -22,6 +21,8 @@ public class AdminProductDto {
     @NotNull
     @Min(0) // bo BigDecimal, więc nie Length, a Min
     private BigDecimal price;
+    @Min(0)
+    private BigDecimal salePrice;
     private AdminProductCurrency currency; // pole będzie musiało mieć wartość z tego enuma
     private String image;
     @NotBlank

@@ -18,9 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-
 import static com.ex.shop.order.service.mapper.OrderDtoMapper.mapToOrderListDto;
 import static com.ex.shop.order.service.mapper.OrderEmailMessageMapper.createEmailMessage;
 import static com.ex.shop.order.service.mapper.OrderMapper.*;
@@ -42,7 +40,6 @@ public class OrderService {
     // 35.1 zmieniam EmailSimpleSender na EmailSender;
     // 40.0 zmieniam EmailSender na EmailClientService:
     private final EmailClientService emailClientService;
-
 
     // 10.0 implementuję metodę. Muszę stworzyć zamówienie z wierszami, pobrać koszyk i na jego podstawie zrobić wiersze,
     // zapisać zamówienie, usunąć koszyk i zwrócić podsumowanie:
@@ -175,11 +172,12 @@ public class OrderService {
 
     // 22.4 wydzieliłem do prywatnej metody:
     private void saveProductRows(Cart cart, Long orderId) {
-        cart.getItems().stream()
-                .map(cartItem -> mapToOrderRowWithQuantity(orderId, cartItem)
-                )
-                .peek(orderRowRepository::save) // metoda pozwala dodać konsumera
-                .toList();
+        cart.getItems()
+            .stream()
+            .map(cartItem -> mapToOrderRowWithQuantity(orderId, cartItem)
+            )
+            .peek(orderRowRepository::save) // metoda pozwala dodać konsumera
+            .toList();
     }
 
 

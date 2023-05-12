@@ -14,12 +14,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import static com.ex.shop.admin.common.utils.SlugifyUtils.slugifySlug;
 
 @RestController
@@ -83,6 +81,7 @@ public class AdminProductController {
                 .fullDescription(adminProductDto.getFullDescription())
                 .categoryId(adminProductDto.getCategoryId())
                 .price(adminProductDto.getPrice())
+                .salePrice(adminProductDto.getSalePrice())
                 .currency(adminProductDto.getCurrency())
                 .image(adminProductDto.getImage())
                 .slug(slugifySlug(adminProductDto.getSlug()))

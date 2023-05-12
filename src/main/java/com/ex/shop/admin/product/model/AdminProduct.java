@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 
 @Entity
@@ -23,6 +22,7 @@ public class AdminProduct {
     private String description;
     private String fullDescription;
     private BigDecimal price;
+    private BigDecimal salePrice;
     @Enumerated(EnumType.STRING)
     private AdminProductCurrency currency;
     private String image;

@@ -7,7 +7,6 @@ import com.ex.shop.cart.controller.dto.SummaryDto;
 import com.ex.shop.common.model.Cart;
 import com.ex.shop.common.model.CartItem;
 import com.ex.shop.common.model.Product;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -44,18 +43,18 @@ public class CartMapper { // 8.0
 
     private static ProductDto mapToProductDto(Product product) {
         return ProductDto.builder()
-                .id(product.getId())
-                .name(product.getName())
-                .price(product.getPrice())
-                .currency(product.getCurrency())
-                .image(product.getImage())
-                .slug(product.getSlug())
-                .build();
+                         .id(product.getId())
+                         .name(product.getName())
+                         .price(product.getEndPrice())
+                         .currency(product.getCurrency())
+                         .image(product.getImage())
+                         .slug(product.getSlug())
+                         .build();
     }
 
     private static BigDecimal calculateLineValue(CartItem cartItem) {
         //8.9 quantity to int, więc muszę zamienić na BigDecimal:
-        return cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())); // wyliczona wartość pozycji
+        return cartItem.getProduct().getEndPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())); // wyliczona wartość pozycji
     }
 
     private static SummaryDto mapToSummary(List<CartItem> items) {

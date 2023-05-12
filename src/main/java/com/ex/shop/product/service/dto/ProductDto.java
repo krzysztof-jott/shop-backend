@@ -2,7 +2,6 @@ package com.ex.shop.product.service.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -15,6 +14,7 @@ public class ProductDto {
     private final String description;
     private final String fullDescription;
     private final BigDecimal price;
+    private final BigDecimal salePrice;
     private final String currency;
     private final String image;
     private final String slug;

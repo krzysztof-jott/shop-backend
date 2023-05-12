@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
 @Service
@@ -30,17 +29,19 @@ public class CategoryService {
     public CategoryProductsDto getCategoriesWithProducts(String slug, Pageable pageable) {
         Category category = categoryRepository.findBySlug(slug);
         Page<Product> page = productRepository.findByCategoryId(category.getId(), pageable); // dodaję pageable, żeby SpringData od razu postronicowało wyniki
-        List<ProductListDto> productListDtos = page.getContent().stream()
-                .map(product -> ProductListDto.builder()
-                        .id(product.getId())
-                        .name(product.getName())
-                        .description(product.getDescription())
-                        .price(product.getPrice())
-                        .currency(product.getCurrency())
-                        .image(product.getImage())
-                        .slug(product.getSlug())
-                        .build())
-                .toList();
+        List<ProductListDto> productListDtos = page.getContent()
+                                                   .stream()
+                                                   .map(product -> ProductListDto.builder()
+                                                                                 .id(product.getId())
+                                                                                 .name(product.getName())
+                                                                                 .description(product.getDescription())
+                                                                                 .price(product.getPrice())
+                                                                                 .salePrice(product.getSalePrice())
+                                                                                 .currency(product.getCurrency())
+                                                                                 .image(product.getImage())
+                                                                                 .slug(product.getSlug())
+                                                                                 .build())
+                                                   .toList();
         return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements())); // dostosowuję to co zwracam i Category z metody zmienia się na CategoryProductsDto
     }
 }

@@ -9,13 +9,11 @@ import com.ex.shop.order.model.Payment;
 import com.ex.shop.order.model.Shipment;
 import com.ex.shop.order.model.dto.OrderDto;
 import com.ex.shop.order.model.dto.OrderSummary;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrderMapper {
-
     public static Order createNewOrder(OrderDto orderDto, Cart cart, Shipment shipment, Payment payment, Long userId) {
         return Order.builder()
                 .firstname(orderDto.getFirstname())
@@ -39,13 +37,15 @@ public class OrderMapper {
 
     private static BigDecimal calculateGrossValue(List<CartItem> items, Shipment shipment) {
         return items.stream()
-                .map(cartItem -> cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())))
-                // quantity jest int więc trzeba go zamienić na BigDecimal
-                // muszę użyć reduce, żeby zredukować wszystkie BigDecimale do jednego BigDecimala:
-                .reduce(BigDecimal::add)
-                .orElse(BigDecimal.ZERO)
-                // 23.3 dodaję cenę dostawy:
-                .add(shipment.getPrice());
+                    .map(cartItem ->
+                            (cartItem.getProduct().getSalePrice() != null ? cartItem.getProduct().getSalePrice() : cartItem.getProduct().getPrice())
+                            .multiply(BigDecimal.valueOf(cartItem.getQuantity())))
+                    // quantity jest int więc trzeba go zamienić na BigDecimal
+                    // muszę użyć reduce, żeby zredukować wszystkie BigDecimale do jednego BigDecimala:
+                    .reduce(BigDecimal::add)
+                    .orElse(BigDecimal.ZERO)
+                    // 23.3 dodaję cenę dostawy:
+                    .add(shipment.getPrice());
     }
 
     public static OrderSummary createOrderSummary(Payment payment, Order newOrder) {
@@ -70,10 +70,10 @@ public class OrderMapper {
 
     public static OrderRow mapToOrderRowWithQuantity(Long orderId, CartItem cartItem) {
         return OrderRow.builder() // dodaję wszystkie pola, które są potrzebne:
-                .quantity(cartItem.getQuantity())
-                .productId(cartItem.getProduct().getId())
-                .price(cartItem.getProduct().getPrice())
-                .orderId(orderId)
-                .build();
+                       .quantity(cartItem.getQuantity())
+                       .productId(cartItem.getProduct().getId())
+                       .price(cartItem.getProduct().getEndPrice())
+                       .orderId(orderId)
+                       .build();
     }
 }
