@@ -2,6 +2,7 @@ package com.ex.shop.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.ex.shop.security.exception.RegisterException;
 import com.ex.shop.security.model.ShopUserDetails;
 import com.ex.shop.security.model.User;
 import com.ex.shop.security.model.UserRole;
@@ -19,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Date;
 import java.util.List;
 
@@ -59,11 +59,11 @@ public class LoginController {
         // już istnieje. Jak jest wszystko ok to można dodać usera do bazy i wywołać springowy mechanizm logowania.
         if (!registerCredentials.getPassword().equals(registerCredentials.getRepeatPassword())) {
             // jeśli różne to wyjątek:
-            throw new IllegalArgumentException("Hasła nie są identyczne");
+            throw new RegisterException("Hasła nie są identyczne");
         }
         // 29.0 czy użytkownik istnieje, tworzę metodę (exist to słowo kluczowe Spring Data):
         if (userRepository.existsByUsername(registerCredentials.getUsername())) {
-            throw new IllegalArgumentException("Taki użytkownik już istnieje w bazie danych");
+            throw new RegisterException("Taki użytkownik już istnieje w bazie danych");
         }
         // 29.1 zapisuję użytkownika do bazy:
         userRepository.save(User.builder()

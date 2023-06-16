@@ -55,11 +55,11 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService(DataSource dataSource) {
 
         // 22.0 usuwam,
-*//*        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("test")
-                .roles("ADMIN")
-                .build();*//*
+        UserDetails admin = User.withDefaultPasswordEncoder()
+                                .username("admin")
+                                .password("test")
+                                .roles("ADMIN")
+                                .build();
         // 22.1 i teraz mam bazodanowego user details menadzera:
         return new JdbcUserDetailsManager(dataSource); // teraz mogę zaczytać użytkowników z bazy danych
     }*/
