@@ -13,10 +13,8 @@ import java.util.NoSuchElementException;
 public class DefaultErrorHandling {
 
     @ExceptionHandler({NoSuchElementException.class})
-    // trzeba podać klasę wyjątku, przy której ma się odpalić ta metoda
-    @ResponseBody // żeby zwróciło JSONa
-    // będzie zwracać kod błędu. Jako parametr ten wyjątek, który będzie przychodził:
-    public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException e, HttpServletRequest request) {
+    @ResponseBody
+    public ResponseEntity<?> handleNoSuchElementException(NoSuchElementException e, HttpServletRequest request){
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new DefaultErrorDto(
@@ -24,7 +22,7 @@ public class DefaultErrorHandling {
                         HttpStatus.NOT_FOUND.value(),
                         HttpStatus.NOT_FOUND.getReasonPhrase(),
                         "Zasób nie istnieje",
-                        request.getRequestURI() // ścieżka
+                        request.getRequestURI()
                 ));
     }
 }

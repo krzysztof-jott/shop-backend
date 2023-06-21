@@ -7,6 +7,7 @@ import com.ex.shop.admin.product.service.AdminProductImageService;
 import com.ex.shop.admin.product.service.AdminProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,10 +45,10 @@ public class AdminProductController {
         );
     }
 
+    @CacheEvict(cacheNames = "productBySlug", key="#adminProductDto.slug")
     @PutMapping("/admin/products/{id}")
     public AdminProduct updateProduct(@RequestBody @Valid AdminProductDto adminProductDto, @PathVariable Long id) {
-        return productService.updateProduct(mapAdminProduct(adminProductDto, id)// bez @Valid Hibernate Validator nie sprawdzi klasy
-        );
+        return productService.updateProduct(mapAdminProduct(adminProductDto, id));
     }
 
     @DeleteMapping("/admin/products/{id}")
@@ -70,21 +71,26 @@ public class AdminProductController {
         Resource file = productImageService.serveFiles(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(filename)))
-                .body(file); // teraz metoda będzie zwracała Resource, czyli plik zapisany na dysku
+                .body(file);
+    }
+
+    @GetMapping("/admin/products/clearCache")
+    @CacheEvict(value = "productBySlug")
+    public void clearProductsCache() {
     }
 
     private static AdminProduct mapAdminProduct(AdminProductDto adminProductDto, Long id) {
         return AdminProduct.builder()
-                .id(id)
-                .name(adminProductDto.getName())
-                .description(adminProductDto.getDescription())
-                .fullDescription(adminProductDto.getFullDescription())
-                .categoryId(adminProductDto.getCategoryId())
-                .price(adminProductDto.getPrice())
-                .salePrice(adminProductDto.getSalePrice())
-                .currency(adminProductDto.getCurrency())
-                .image(adminProductDto.getImage())
-                .slug(slugifySlug(adminProductDto.getSlug()))
-                .build();
+                           .id(id)
+                           .name(adminProductDto.getName())
+                           .description(adminProductDto.getDescription())
+                           .fullDescription(adminProductDto.getFullDescription())
+                           .categoryId(adminProductDto.getCategoryId())
+                           .price(adminProductDto.getPrice())
+                           .salePrice(adminProductDto.getSalePrice())
+                           .currency(adminProductDto.getCurrency())
+                           .image(adminProductDto.getImage())
+                           .slug(slugifySlug(adminProductDto.getSlug()))
+                           .build();
     }
 }

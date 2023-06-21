@@ -1,17 +1,16 @@
 package com.ex.shop.admin.product.service;
 
 import org.apache.commons.io.FilenameUtils;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 class ExistingFileRenameUtils {
 
     public static String renameIfExists(Path uploadDir, String fileName) {
-        if (Files.exists(uploadDir.resolve(fileName))) { // jeśli istnieje dany plik w danej ścieżce to trzeba zmienić nazwę
+        if (Files.exists(uploadDir.resolve(fileName))) {
             return renameAndCheck(uploadDir, fileName);
         }
-        return fileName; // jeśli plik nie istnieje, powinno zwrócić tę samą nazwę pliku
+        return fileName;
     }
 
     private static String renameAndCheck(Path uploadDir, String fileName) {

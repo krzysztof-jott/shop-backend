@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,7 +31,7 @@ public class AdminProductImageService {
         } catch (IOException e) {
             throw new RuntimeException("nie mogę zapisać pliku", e);
         }
-        return newFileName; // zwracam nazwę nowozapisanego pliku
+        return newFileName;
     }
 
     public Resource serveFiles(String filename) {

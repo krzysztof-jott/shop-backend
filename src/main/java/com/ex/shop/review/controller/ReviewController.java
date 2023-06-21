@@ -17,16 +17,16 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @PostMapping("/reviews") // mapowanie postem, bo zapisuję nową opinię za każdym razem
-    public Review addReview(@RequestBody @Valid ReviewDto reviewDto) {// muszę przemapować DTO na encję Review
+    @PostMapping("/reviews")
+    public Review addReview(@RequestBody @Valid ReviewDto reviewDto) {
         return reviewService.addReview(Review.builder()
-                .authorName(cleanContent(reviewDto.authorName()))
-                .content(cleanContent(reviewDto.content()))
-                .productId(reviewDto.productId())
-                .build()); // i już jest zmapowana encja Review
+                                             .authorName(cleanContent(reviewDto.authorName()))
+                                             .content(cleanContent(reviewDto.content()))
+                                             .productId(reviewDto.productId())
+                                             .build());
     }
 
     private String cleanContent(String text) {
-        return Jsoup.clean(text, Safelist.none()); // wklejam z dokumentacji JSOUP, unsafe zamieniam na text i basic na none,
+        return Jsoup.clean(text, Safelist.none());
     }
 }

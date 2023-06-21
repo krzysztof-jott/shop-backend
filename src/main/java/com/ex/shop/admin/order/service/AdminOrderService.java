@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -37,19 +36,14 @@ public class AdminOrderService {
         return adminOrderRepository.findById(id).orElseThrow();
     }
 
-    // 2.2
     @Transactional
     public void patchOrder(Long id, Map<String, String> values) {
         AdminOrder adminOrder = adminOrderRepository.findById(id).orElseThrow();
-        // 2.3 tworzę metodę prywatną:
         patchValues(adminOrder, values);
     }
 
     private void patchValues(AdminOrder adminOrder, Map<String, String> values) {
         if (values.get("orderStatus") != null) {
-            // 2.4 muszę wybrać odpowiedni status. Muszę skonwertować Stringa na enuma:
-            // 12.0 wydzielam metodę:
-            // 9.2 wydzielam z tego newStatus
             processOrderStatusChange(adminOrder, values);
         }
     }
@@ -57,50 +51,19 @@ public class AdminOrderService {
     private void processOrderStatusChange(AdminOrder adminOrder, Map<String, String> values) {
         OrderStatus oldStatus = adminOrder.getOrderStatus();
         OrderStatus newStatus = OrderStatus.valueOf(values.get("orderStatus"));
-        // 28.0 dodaję if:
         if (oldStatus == newStatus) {
             return;
         }
         adminOrder.setOrderStatus(newStatus);
-        //adminOrder.setOrderStatus(OrderStatus.valueOf(values.get("orderStatus")));
-        // 9.1 wywołuję metodę i tworzę zmienne old i newStatus:
         logStatusChange(adminOrder.getId(), oldStatus, newStatus);
-        // 12.1 dodaję jeszcze jedną metodę, która będzie wysyłać powiadomienia:
         emailNotificationForStatusChange.sendEmailNotification(newStatus, adminOrder);
     }
 
-    // przenoszę te 2 metody do EmailNotificationForStatusChange:
- /*   // 12.2 wysyłam tylko niektóre zmiany statusów, żeby nie spamować:
-    private void sendEmailNotification(OrderStatus newStatus, AdminOrder adminOrder) {
-        if (newStatus == OrderStatus.PROCESSING) {
-            // 12.3 metoda do wysyłania mejla:
-            sendEmail(adminOrder.getEmail(),
-                    "Zamówienie " + adminOrder.getId() + " zmieniło status na " + newStatus.getValue(),
-                    // potrzebuję id i stsatusu zamówienia:
-                    createProcessingEmailMessage(adminOrder.getId(), newStatus)); // dodaję statyczny import
-        } else if (newStatus == OrderStatus.COMPLETED) {
-            sendEmail(adminOrder.getEmail(),
-                    "Zamówienie " + adminOrder.getId() + " zostało zrealizowane",
-                    createCompletedEmailMessage(adminOrder.getId(), newStatus));
-        } else if (newStatus == OrderStatus.REFUND) {
-            sendEmail(adminOrder.getEmail(),
-                    "Zamówienie " + adminOrder.getId() + " zostało zwrócone",
-                    createRefundEmailMessage(adminOrder.getId(), newStatus));
-        }
-    }
-
-    // 12.4:
-    private void sendEmail(String email, String subject, String mesage) {
-
-    }*/
-
-    // 9.0
     private void logStatusChange(Long orderId, OrderStatus oldStatus, OrderStatus newStatus) {
-        // 9.3 tworzę encję builderem:
         adminOrderLogRepository.save(AdminOrderLog.builder()
-                .created(LocalDateTime.now())
-                .orderId(orderId)
-                .note("Zmiana statusu zamówienia z " + oldStatus.getValue() + " na " + newStatus.getValue() + ".")
-                .build());
+                                                  .created(LocalDateTime.now())
+                                                  .orderId(orderId)
+                                                  .note("Zmiana statusu zamówienia z " + oldStatus.getValue() + " na " + newStatus.getValue() + ".")
+                                                  .build());
     }
 }

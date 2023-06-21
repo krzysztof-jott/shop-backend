@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,7 +31,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminOrderExportController {
 
-    // 20.1 wydzieliłem stałą z metody w 20.0:
     private static final CSVFormat FORMAT = CSVFormat.Builder
             .create(CSVFormat.DEFAULT)
             .setHeader("Id", "PlaceDate", "OrderStatus", "GrossValue", "Firstname", "Lastname", "Street", "Zipcode",
@@ -41,31 +39,25 @@ public class AdminOrderExportController {
 
     private final AdminExportService adminExportService;
 
-    // 17.0 dodaję usługę. Żeby usługa mogła zwracać plik lub resource, który jest plikiem, to najlepiej jest zrobić to przez
-    // ResponseEntity z parametrem generycznym:
     @GetMapping
     public ResponseEntity<Resource> exportOrders(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate from,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate to,
             @RequestParam OrderStatus orderStatus
     ) {
-        // 17.X metoda, która pozwoli pobrać odpowiednie dane:
         List<AdminOrder> adminOrders = adminExportService.exportOrders(
-                // konwertuję na odpowiednie wartości. Żeby skonwertować datę z LocalDate na LocalDateTime użyję metody of:
-                LocalDateTime.of(from, LocalTime.of(0,0,0)),
-                LocalDateTime.of(to, LocalTime.of(23,59,59)), // wracam do serwisu
+                LocalDateTime.of(from, LocalTime.of(0, 0, 0)),
+                LocalDateTime.of(to, LocalTime.of(23, 59, 59)),
                 orderStatus);
-        // 20.2
         ByteArrayInputStream stream = transformToCsv(adminOrders);
         InputStreamResource resource = new InputStreamResource(stream);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "orderExport.csv")
-                .contentType(MediaType.parseMediaType("text/csv"))
-                .body(resource);
+                             .header(HttpHeaders.CONTENT_DISPOSITION, "orderExport.csv")
+                             .contentType(MediaType.parseMediaType("text/csv"))
+                             .body(resource);
     }
 
-    // 20.0 metoda do przekształcenia danych w csv:
-    private ByteArrayInputStream transformToCsv(List<AdminOrder> adminOrders) { // potrzebuję klasy CSV printer:
+    private ByteArrayInputStream transformToCsv(List<AdminOrder> adminOrders) {
         try (ByteArrayOutputStream stream = new ByteArrayOutputStream();
              CSVPrinter printer = new CSVPrinter(new PrintWriter(stream), FORMAT)) {
             for (AdminOrder order : adminOrders) {
@@ -84,8 +76,7 @@ public class AdminOrderExportController {
                         order.getPayment().getName()
                 ));
             }
-            printer.flush(); // trzeba sflaszować printera
-            // muszę zwrócić dane w formie ByteArrayInputStream, a mam dane w postaci OutputStreama:
+            printer.flush();
             return new ByteArrayInputStream(stream.toByteArray());
         } catch (IOException e) {
             throw new RuntimeException("Błąd przetwarzania CSV: " + e.getMessage());

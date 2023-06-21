@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/cartItems")
 @RequiredArgsConstructor
-public class CartItemController { // 16.0
+public class CartItemController {
 
     private final CartItemService cartItemService;
 
@@ -16,9 +16,8 @@ public class CartItemController { // 16.0
         cartItemService.delete(id);
     }
 
-    //    19.2 dodaję usługę do zliczania liczby rzeczy w koszyku:
     @GetMapping("/count/{cartId}")
     public Long countItemInCart(@PathVariable Long cartId) {
-        return cartItemService.countItemInCart(cartId); // dodaję metodę w serwisie
+        return cartItemService.countItemInCart(cartId);
     }
 }

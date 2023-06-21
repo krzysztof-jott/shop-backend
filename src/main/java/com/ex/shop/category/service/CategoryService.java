@@ -28,7 +28,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryProductsDto getCategoriesWithProducts(String slug, Pageable pageable) {
         Category category = categoryRepository.findBySlug(slug);
-        Page<Product> page = productRepository.findByCategoryId(category.getId(), pageable); // dodaję pageable, żeby SpringData od razu postronicowało wyniki
+        Page<Product> page = productRepository.findByCategoryId(category.getId(), pageable);
         List<ProductListDto> productListDtos = page.getContent()
                                                    .stream()
                                                    .map(product -> ProductListDto.builder()
@@ -42,6 +42,6 @@ public class CategoryService {
                                                                                  .slug(product.getSlug())
                                                                                  .build())
                                                    .toList();
-        return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements())); // dostosowuję to co zwracam i Category z metody zmienia się na CategoryProductsDto
+        return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements()));
     }
 }

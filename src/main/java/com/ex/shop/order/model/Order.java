@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +35,6 @@ public class Order {
     private String email;
     private String phone;
     @OneToOne
-    private Payment payment; // muszę to zmapować, i to i Payment to encje, więc dodaję @OneToOne
-    // 49.0 dodaję pole:
+    private Payment payment;
     private Long userId;
 }

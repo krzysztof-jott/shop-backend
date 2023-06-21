@@ -5,14 +5,11 @@ import com.ex.shop.common.mail.EmailClientService;
 import com.ex.shop.common.model.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import static com.ex.shop.admin.order.service.AdminOrderEmailMessage.*;
 
-// usuwam public!
 @Service
 @RequiredArgsConstructor
 class EmailNotificationForStatusChange {
-    // 14.0
     private final EmailClientService emailClientService;
 
     void sendEmailNotification(OrderStatus newStatus, AdminOrder adminOrder) {
@@ -32,7 +29,7 @@ class EmailNotificationForStatusChange {
     }
 
     private void sendEmail(String email, String subject, String message) {
-        // 14.1
-        emailClientService.getInstance().send(email, subject, message);
+        emailClientService.getInstance()
+                          .send(email, subject, message);
     }
 }

@@ -3,6 +3,7 @@ package com.ex.shop.homepage.controller;
 import com.ex.shop.homepage.controller.dto.HomePageDto;
 import com.ex.shop.homepage.service.HomePageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,7 @@ public class HomePageController {
     private final HomePageService homePageService;
 
     @GetMapping("/homePage")
+    @Cacheable("homePage")
     public HomePageDto getHomePage() {
         return new HomePageDto(homePageService.getSaleProducts());
     }

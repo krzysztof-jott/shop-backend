@@ -12,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
 import java.io.IOException;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
@@ -49,7 +48,6 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     .verify(token.replace(TOKEN_PREFIX, ""))
                     .getSubject();
             if (userName != null) {
-                // 48.0 zmieniam UserDetails na ShopUserDetails i getUsername na getId. Muszę zrobić rzutowanie:
                 ShopUserDetails shopUserDetails = (ShopUserDetails) userDetailsService.loadUserByUsername(userName);
                 return new UsernamePasswordAuthenticationToken(shopUserDetails.getId(), null, shopUserDetails.getAuthorities());
             }

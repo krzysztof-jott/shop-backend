@@ -7,7 +7,6 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import java.util.Arrays;
 
 @Configuration
@@ -17,9 +16,13 @@ public class Config {
     public OpenAPI api() {
         return new OpenAPI()
                 .components(new Components().addSecuritySchemes("JWT Token",
-                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
-                                .in(SecurityScheme.In.HEADER).name("Authorization")))
-                .info(new Info().title("Shop API").version("0"))
+                        new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                                            .scheme("bearer")
+                                            .bearerFormat("JWT")
+                                            .in(SecurityScheme.In.HEADER)
+                                            .name("Authorization")))
+                .info(new Info().title("Shop API")
+                                .version("0"))
                 .addSecurityItem(
                         new SecurityRequirement().addList("JWT Token", Arrays.asList("read", "write")));
     }

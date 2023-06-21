@@ -15,8 +15,7 @@ public class AdminOrderStatsController {
     private final AdminOrderStatsService adminOrderStatsService;
 
     @GetMapping
-    public AdminOrderStats getOrderStatistics() { // tworzę DTO, w modelu, bo będę je zwracać w serwisie
-        // 26.2 tworzę metodę getStatistics():
+    public AdminOrderStats getOrderStatistics() {
         return adminOrderStatsService.getStatistics();
     }
 }

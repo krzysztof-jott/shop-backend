@@ -16,6 +16,6 @@ public class SlugifyUtils {
     public static String slugifySlug(String slug) {
         Slugify slugify = new Slugify();
         return slugify.withCustomReplacement("_", "-")
-                .slugify(slug); // teraz wszystko powinno się już zapisywać na backendzie
+                .slugify(slug);
     }
 }

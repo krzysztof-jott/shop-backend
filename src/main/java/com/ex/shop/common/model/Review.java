@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder // pomaga w łatwiejszy sposób tworzyć obiekty
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Review {

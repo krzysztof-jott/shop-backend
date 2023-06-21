@@ -2,7 +2,6 @@ package com.ex.shop.security.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,12 +20,10 @@ public class User implements Serializable {
     private String username;
     private String password;
     private boolean enabled;
-    // 31.0 dodaję pole i adnotację, która znaczy, że role z tabeli z tabeli authorities będą mapowane na tę listę. Wskazuję
-    // tabele, z której znajdują się te role i kolumnę, z której będę wyciągał wartości:
     @ElementCollection
     @CollectionTable(name = "authorities", joinColumns = @JoinColumn(name = "username", referencedColumnName = "username"))
-    @Column(name = "authority") // kolumna, z której chcę wyciągnąć wartości
-    @Enumerated(EnumType.STRING) // 32.0 dodaję enuma
+    @Column(name = "authority")
+    @Enumerated(EnumType.STRING)
     private List<UserRole> authorities;
     private String hash;
     private LocalDateTime HashDate;

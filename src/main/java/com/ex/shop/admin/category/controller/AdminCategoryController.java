@@ -5,9 +5,7 @@ import com.ex.shop.admin.category.model.AdminCategory;
 import com.ex.shop.admin.category.service.AdminCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 import static com.ex.shop.admin.common.utils.SlugifyUtils.slugifySlug;
 
 @RestController

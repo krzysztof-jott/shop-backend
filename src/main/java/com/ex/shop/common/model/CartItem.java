@@ -14,7 +14,6 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int quantity;
-    // 2.1 dodaję relację (1 element w koszyku odpowiada 1 produktowi)
     @OneToOne
     private Product product;
     private Long cartId;

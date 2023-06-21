@@ -8,7 +8,6 @@ import lombok.Getter;
 @Table(name = "payment")
 @Getter
 public class AdminPayment {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

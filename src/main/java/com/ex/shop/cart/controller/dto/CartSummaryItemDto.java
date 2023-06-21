@@ -2,7 +2,6 @@ package com.ex.shop.cart.controller.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-
 import java.math.BigDecimal;
 
 @Getter

@@ -9,9 +9,7 @@ public enum OrderStatus {
     CANCELED("Anulowane"),
     REFUND("Zwrócone");
 
-    // 4.1 dodaję pole:
     private String value;
-    // 4.2 dodaję konstruktor:
 
     OrderStatus(String value) {
         this.value = value;

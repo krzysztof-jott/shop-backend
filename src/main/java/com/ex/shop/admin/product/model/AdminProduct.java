@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "product") // podaję nazwę, jakiej tabeli tyczy się ta klasa
+@Table(name = "product")
 @Getter
 @Builder
 @NoArgsConstructor

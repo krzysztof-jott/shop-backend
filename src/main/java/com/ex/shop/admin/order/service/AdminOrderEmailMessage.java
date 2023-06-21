@@ -2,7 +2,6 @@ package com.ex.shop.admin.order.service;
 
 import com.ex.shop.common.model.OrderStatus;
 
-// 12.5
 public class AdminOrderEmailMessage {
 
     public static String createProcessingEmailMessage(Long id, OrderStatus newStatus) {

@@ -29,5 +29,5 @@ public class OrderDto {
     @NotNull
     private Long shipmentId;
     @NotNull
-    private Long paymentId; // 27.0
+    private Long paymentId;
 }

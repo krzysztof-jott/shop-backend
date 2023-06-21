@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,23 +30,18 @@ public class AdminOrderController {
         return adminOrderService.getOrder(id);
     }
 
-    //    2.1
     @PatchMapping("/{id}")
     public void patchOrder(@PathVariable Long id, @RequestBody Map<String, String> values) {
-        adminOrderService.patchOrder(id, values); // idę do serwisu
+        adminOrderService.patchOrder(id, values);
     }
 
-    // 3.0
     @GetMapping("/initData")
     public AdminInitDataDto getInitData() {
-        // 3.1 robię mapę ze statusami:
         return new AdminInitDataDto(createOrderStatusesMap());
     }
 
     private Map<String, String> createOrderStatusesMap() {
-        // 3.2 potrzebuję mapy, która będzie zawierała statusy:
         HashMap<String, String> statuses = new HashMap<>();
-        // 4.3 wypełniam mapę statusami:
         for (OrderStatus value : OrderStatus.values()) {
             statuses.put(value.name(), value.getValue());
         }

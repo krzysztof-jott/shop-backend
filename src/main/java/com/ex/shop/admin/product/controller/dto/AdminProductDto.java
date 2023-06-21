@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Getter
 public class AdminProductDto {
-    @NotBlank // żeby Stringiem nie był tylko biały znak, np spacja
+    @NotBlank
     @Length(min = 4)
     private String name;
     private Long categoryId;
@@ -19,11 +19,11 @@ public class AdminProductDto {
     private String description;
     private String fullDescription;
     @NotNull
-    @Min(0) // bo BigDecimal, więc nie Length, a Min
+    @Min(0)
     private BigDecimal price;
     @Min(0)
     private BigDecimal salePrice;
-    private AdminProductCurrency currency; // pole będzie musiało mieć wartość z tego enuma
+    private AdminProductCurrency currency;
     private String image;
     @NotBlank
     @Length(min = 4)
